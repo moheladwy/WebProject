@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=, initial-scale=1.0" />
+    <title>{% block title %}{% endblock title %}</title>
+    
+    <!-- style sheets -->
+    {% block styleSheets %}
+    {% endblock styleSheets %}
+
+    <!-- nav bar font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400&family=Ubuntu&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald&family=Roboto&family=Trirong&display=swap">
+    
+    <!-- scripts -->
+    <script src="https://kit.fontawesome.com/84b9eabc8b.js" crossorigin="anonymous"></script>
+    {% block scripts %}
+    {% endblock scripts %}
+        
+  </head>
+  <body>
+    <h1>Human Resources</h1>
+    {% block body %}
+    {% endblock body %}
+    <footer>
+        <p>Copy &copy; 2023. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

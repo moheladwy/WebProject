@@ -1,0 +1,93 @@
+h2 {    
+    font-size: 25px;
+    color: white;
+    background-color: #063970;
+    width: fit-content;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 0.5em;
+    margin: 0.5% auto;
+    text-align: center;
+}
+
+.full-table {
+    /* text-align: center; */
+    margin: 0 5%;
+    border: solid;
+    border-color: #063970;
+    border-radius: 0.5em;
+}
+
+.table-wrapper thead {
+    background-color: #20519e;
+    color: #DFF6FF;
+    width: 100%;
+}
+
+.full-table .table-wrapper table tbody tr td{
+    /* min-height: 500px; */
+    padding: 20px 10px;
+}
+
+.table-wrapper{
+    width: 100%;
+    display: inline-block;
+}
+
+table {
+    width: 100%;
+}
+
+.table-wrapper table {
+    border-collapse: collapse;
+}
+
+.ID, .name, .email, .phone-number, .start-date, .end-date, .reason, .action {
+    text-align: center;
+}
+
+.ID {
+    width: 7%;
+}
+
+.name {
+    width: 17%;
+}
+
+.email {
+    width: 18%;
+}
+
+.phone-number {
+    width: 8%;
+}
+
+.start-date,.end-date {
+    width: 11.5%;
+}
+
+.reason {
+    width: 20%;
+}
+
+.action {
+    width: 7%;
+}
+
+.table-wrapper td button {
+    background-color: inherit;
+    color:#20519e;
+    border: none;
+}
+
+.table-wrapper td button:hover {
+    color: turquoise;
+}
+
+.table-wrapper tr:nth-child(even) {
+    background-color: white;
+}
+
+.table-wrapper td {
+    text-align: center;
+}

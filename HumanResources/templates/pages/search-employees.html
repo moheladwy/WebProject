@@ -1,0 +1,67 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Search{% endblock title %}
+
+{% block styleSheets %}
+<link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/search-table-styling.css' %}">
+{% endblock styleSheets %}
+
+{% block scripts %}    
+<script src="{% static 'scripts/search_table.js' %}" defer="defer"></script>
+{% comment %} <script src="{% static 'scripts/search-employees-onload.js' %}" defer="defer"></script> {% endcomment %}
+{% endblock scripts %}
+
+{% block body %}
+<div class="topnav">
+    <a href="{% url 'index' %}">HOME</a> 
+    <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
+    <a href="{% url 'vacations' %}">VACATIONS</a>
+</div>
+<h2>Search for an Employee to fill the vacation form</h2>
+<div class="full-table">
+    <div class="above-table">
+        <div class="search-box">
+            <input class="input-bar" type="text" name="employee-data" placeholder="Search for an employee...">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <select class="search-by-options">
+                <option value="0">ID</option>
+                <option value="1" selected>Name</option>
+                <option value="2">Email</option>
+                <option value="3">Phone Number</option>
+            </select>
+        </div>
+        <a href="{% url 'addEmployee' %}"><button name="add-employee"><i class="fa-solid fa-user-plus"></i> Add Employee</button></a>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="ID">ID</th>
+                    <th class="name">Name</th>
+                    <th class="email">Email</th>
+                    <th class="phone-number">Phone Number</th>
+                    <th class="action">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                {% for employee  in employees %}
+                    <tr>
+                        <td><div class="employee-id">{{ employee.id }}</div></td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.phoneNumber }}</td>
+                        <td>
+                            <a href="{% url 'vacationForm' %}"><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
+                            <a href="{% url 'editEmployee' employee.id %}"><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>No Employees, try to add one!</tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock body %}

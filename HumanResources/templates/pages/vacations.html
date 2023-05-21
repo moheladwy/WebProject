@@ -1,0 +1,59 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Vacations{% endblock title %}
+
+{% block styleSheets %}
+<link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/vacations-table-styling.css' %}">
+{% endblock styleSheets %}
+
+{% block body %}
+<div class="topnav">
+    <a href="{% url 'index' %}">HOME</a> 
+    <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
+    <a href="{% url 'vacations' %}">VACATIONS</a>
+</div>
+<h2>Submitted Vacations List</h2>
+<div class="full-table">
+    <div class="above-table"></div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th class="ID">ID</th>
+                    <th class="name">Name</th>
+                    <th class="email">Email</th>
+                    <th class="phone-number">Phone Number</th>
+                    <th class="start-date">Start Date</th>
+                    <th class="end-date">End Date</th>
+                    <th class="reason">Reason</th>
+                    <th class="action">Actions</th>
+                </tr>
+            </thead>
+            <tbody> 
+                {% for vacation in vacations %}
+                    <tr>
+                        <td>{{ vacation.employee.id }}</td>
+                        <td>{{ vacation.employee.name }}</td>
+                        <td>{{ vacation.employee.email }}</td>
+                        <td>{{ vacation.employee.phoneNumber }}</td>
+                        <td>{{ vacation.startDate }}</td>
+                        <td>{{ vacation.endDate }}</td>
+                        <td>{{ vacation.vacationReason }}</td>
+                        <td>
+                            <button class="approve-button" type="button"><i class="fa-regular fa-circle-check"></i></button>
+                            <button class="reject-button" type="button"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td>N/A</td>
+                    </tr>
+                {% endfor %}         
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+{% endblock body %}

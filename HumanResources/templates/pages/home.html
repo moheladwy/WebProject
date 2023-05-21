@@ -1,0 +1,16 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block title %}Human Resources{% endblock title %}
+
+{% block styleSheets %}    
+<link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
+{% endblock styleSheets %}
+
+{% block body %}
+<div class="topnav">
+    <a href="{% url 'index' %}">HOME</a> 
+    <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
+    <a href="{% url 'vacations' %}">VACATIONS</a>
+</div>
+{% endblock body %}

@@ -1,0 +1,158 @@
+h2 {
+    font-size: 25px;
+    color: white;
+    background-color: #063970;
+    width: fit-content;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 0.5em;
+    margin: 0.5% auto;
+    text-align: center;
+}
+
+.full-table {
+    /* text-align: center; */
+    margin: 0 10%;
+    border: solid;
+    border-color: #063970;
+    border-radius: 0.5em;
+}
+
+.above-table {
+    /* display: inline-block; */
+    position: relative;
+    height: 65px;
+}
+
+input[name="employee-data"] {
+    background-color: white;
+    position: absolute;
+    top: 10%;
+    left: 1.5%;
+    border: solid;
+    border-color: #063970;
+    border-radius: 2.5em;
+    width: calc(97.5% - 90px);
+    height: 70%;
+    padding-left: 85px;
+}
+
+button[name="add-employee"] {
+    background-color: #20519e;
+    color: #DFF6FF;
+    position: absolute;
+    right: 1.5%;
+    top: 16%;
+    border: none;
+    border-radius: 5px;
+    height: 60%;
+}
+
+.above-table a :hover {
+    background-color: #1e81b0;
+}
+
+.search-by-options {
+    width: 65px;
+    height: 40%;
+    position: absolute;
+    background-color: #20519e;
+    color: #DFF6FF;
+    border-radius: 0.8em;
+    top: 30%;
+    left: 4.5%;
+}
+
+.fa-magnifying-glass {
+    position: absolute;
+    top: 38%;
+    right: 4%;
+}
+
+/*DO NOT, I REPEAT DO NOT TOUCH THIS ONE*/
+.search-box {
+    display: inline-block;
+    position: relative;
+    height: 65px;
+    width: 31.5%;
+    padding-left: 92px;
+}
+
+.table-wrapper thead {
+    background-color: #20519e;
+    color: #DFF6FF;
+    width: 100%;
+}
+
+.full-table .table-wrapper table tbody tr td {
+    /* min-height: 500px; */
+    padding: 20px 10px;
+}
+
+.table-wrapper {
+    width: 100%;
+    display: inline-block;
+}
+
+table {
+    width: 100%;
+}
+
+.table-wrapper table {
+    border-collapse: collapse;
+}
+
+.ID {
+    width: 15%;
+    text-align: center;
+}
+
+.name {
+    width: 25%;
+    text-align: center;
+}
+
+.email {
+    width: 25%;
+    text-align: center;
+}
+
+.phone-number {
+    width: 20%;
+    text-align: center;
+}
+
+.action {
+    width: 15%;
+    text-align: center;
+}
+
+.table-wrapper td button {
+    background-color: inherit;
+    color: #20519e;
+    border: none;
+}
+
+.table-wrapper td button:hover {
+    color: turquoise;
+}
+
+.table-wrapper tr:nth-child(even) {
+    background-color: white;
+}
+
+.table-wrapper td {
+    text-align: center;
+}
+
+.table-wrapper td:last-child {
+    text-align: left;
+}
+
+.table-wrapper .fa-plus {
+    margin-right: 5px;
+}
+
+.table-wrapper .fa-pen-to-square {
+    margin-right: 5px;
+}
