@@ -1,23 +1,29 @@
-from .models import Employee, Vacation
 from django.shortcuts import render
+from django.http import HttpRequest
+from .models import Employee, Vacation
+from .form import EmployeeForm
+from datetime import datetime
 
 
-def index(request):
+# done.
+def index(request:HttpRequest):
     return render(request, 'index.html')
 
 
-def home(request):
+# done.
+def home(request:HttpRequest):
     return render(request, 'pages/home.html')
 
 
-def searchEmployee(request):
+# done.
+def searchEmployee(request:HttpRequest):
     return render(request, 'pages/search-employees.html', {
         'employees': Employee.objects.all()
     })
 
 
 # done.
-def addEmployee(request):
+def addEmployee(request:HttpRequest):
     if request.method == 'POST':
         employeeID = request.POST.get('id')
         if Employee.objects.filter(id=employeeID).exists():
@@ -45,37 +51,66 @@ def addEmployee(request):
     return render(request, 'pages/add-employee.html')
 
 
-# to be tested.
-def editEmployee(request, employeeId):
+def initialFormData(employee:Employee, isDesiabled:bool=True) -> EmployeeForm:
+    initialData = {
+        'id': employee.id,
+        'name': employee.name,
+        'email': employee.email,
+        'address': employee.address,
+        'phoneNumber': employee.phoneNumber,
+        'gender': employee.gender,
+        'maritalStatus': employee.maritalStatus,
+        'availableVacationDays': employee.availableVacationDays,
+        'approvedVacationDays': employee.approvedVacationDays,
+        'salary': employee.salary,
+        'birthDay': employee.birthDay
+    }
+    form = EmployeeForm(initial=initialData)
+    # form.id.disabled = isDesiabled
+    return form
+
+
+# done.
+def editEmployee(request:HttpRequest):
+    return render(request, 'pages/edit-employee.html', {
+        'form': EmployeeForm()
+    })
+
+
+# done.
+def editEmployeeForm(request:HttpRequest, employeeId:int):
     if request.method == 'POST':
-        employee = Employee()
-        if not Employee.objects.filter(id=request.POST.get('id')).exists():
-            return render(request, 'pages/add-employee.html', {'errorMessage': 'Employee ID does not exist'})
+        employee = Employee.objects.get(id=employeeId)
+        employee.id = request.POST.get('id') 
         employee.name = request.POST.get('name')
-        employee.email = request.POST.get('email')
         employee.phoneNumber = request.POST.get('phoneNumber')
         employee.address = request.POST.get('address')
-        employee.gender = request.POST.get('gender')
         employee.maritalStatus = request.POST.get('maritalStatus')
         employee.availableVacationDays = request.POST.get('availableVacationDays')
         employee.approvedVacationDays = request.POST.get('approvedVacationDays')
-        employee.birthDay = request.POST.get('birthDay')
         employee.salary = request.POST.get('salary')
         employee.save()
         return render(request, 'pages/search-employees.html', {
             'employees': Employee.objects.all()
         })
-    employee = Employee.objects.filter(id=employeeId)
-    return render(request, f'pages/edit-employee.html/{employeeId}', {
-        'employee': employee
+    try:
+        employee = Employee.objects.get(id=employeeId)
+    except:
+        return render(request, 'pages/edit-employee.html', {'errorMessage': 'Employee does not exist.'})
+    form = initialFormData(employee)
+    return render(request, 'pages/edit-employee.html', {
+        'form': form,
+        'id': employee.id
     })
 
 
-def vacationForm(request):
+# not done.
+def vacationForm(request:HttpRequest):
     return render(request, 'pages/vacation-form.html')
 
 
-def vacations(request):
+# not done.
+def vacations(request:HttpRequest):
     vacations = Vacation.objects.filter(status='P')
     return render(request, 'pages/vacations.html', {
         'vacations': vacations
