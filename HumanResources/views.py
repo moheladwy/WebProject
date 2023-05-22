@@ -130,7 +130,6 @@ def vacations(request: HttpRequest):
     })
     
     
-    
 def get_vacations(request:HttpRequest):
     vacations = Vacation.objects.all().values()
     return JsonResponse({"vacations": list(vacations)})
