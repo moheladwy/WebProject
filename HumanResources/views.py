@@ -79,6 +79,7 @@ def editEmployee(request: HttpRequest):
 # done.
 def editEmployeeForm(request: HttpRequest, employeeId: int):
     if request.method == 'POST':
+        employee = Employee()
         employee = Employee.objects.get(id=employeeId)
         employee.id = request.POST.get('id')
         employee.name = request.POST.get('name')
