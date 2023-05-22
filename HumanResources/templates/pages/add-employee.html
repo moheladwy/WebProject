@@ -14,7 +14,7 @@
 
 {% block body %}
 <div class="form-container">
-    <h2>Add Employee</h2>
+    <h2>Add an Employee</h2>
     <form id="add-employee-form" action="{% url 'addEmployee' %}" method="post">
         {% csrf_token %}
         <div class="form-element">
@@ -85,6 +85,9 @@
             <button id="submit-btn" type="submit">Save</button>
             <a href="{% url 'searchEmployee' %}"><button type="button">Back</button></a>
         </div>
+        {% if errorMessage %}
+            <p class="errorMessage">{{ errorMessage }}</p>
+        {% endif %}
     </form>
 </div> 
 {% endblock body %}

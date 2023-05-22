@@ -14,7 +14,8 @@
 
 {% block body %}
 <div class="form-container">
-    <h2>Edit your date </h2>
+    <h2>Edit your employee</h2>
+    {% if id %}
     <form id="edit-employee-form" action="{% url 'editEmployeeForm' id %}" method='post'>
         {% csrf_token %}
         {% for field in form %}
@@ -26,8 +27,13 @@
         <div class="form-element">
             <button id="save-btn" type="submit">Save</button>
             <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Cancel</button></a>
-            <a href="{% url 'searchEmployee' %}"><button id="delete-btn" type="button">Delete Employee</button></a>
+            <a href="{% url 'deleteEmployee' id %}"><button id="delete-btn" type="button">Delete Employee</button></a>
         </div>
+        <p class="errorMessage">{{ errorMessage }}</p>
     </form>
+    {% else %}
+        <p class="errorMessage">{{ errorMessage }}</p>
+        <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Back to Search</button></a>
+    {% endif %}
 </div>
 {% endblock body %}
