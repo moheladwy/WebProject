@@ -1,3 +1,7 @@
+.form-container {
+    text-align: center;
+}
+
 .form-container h2 {
     font-size: 25px;
     color: white;
@@ -8,6 +12,17 @@
     border-radius: 0.5em;
     margin: 0.5% auto;
     text-align: center;
+}
+
+.errorMessage {
+    color: red;
+    background-color: white;
+    text-align: center;
+    width: fit-content;
+    font-size: 25px;
+    font-weight: bold;
+    margin: 0.2em auto;
+    padding: 10px;
 }
 
 form {
@@ -22,6 +37,17 @@ form {
 
 .form-element+.form-element {
     margin-top: 1.5em;
+}
+
+#maritalStatus {
+    display: inline-block;
+    width: 19em;
+    text-align: left;
+}
+
+#maritalStatus div {
+    display: inline-block;
+    width: 50%;
 }
 
 label {

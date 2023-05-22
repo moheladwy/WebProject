@@ -14,66 +14,26 @@
 
 {% block body %}
 <div class="form-container">
-    <h2>Edit your date </h2>
-    <form id="edit-employee-form" action="{% url 'editEmployee' employee.id %}" method='post'>
+    <h2>Edit your employee</h2>
+    {% if id %}
+    <form id="edit-employee-form" action="{% url 'editEmployeeForm' id %}" method='post'>
         {% csrf_token %}
+        {% for field in form %}
         <div class="form-element">
-            <label for="id">Employee ID<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="id" name="id" placeholder="20230000" value ="{{ employee.id }}" minlength="8" maxlength="8" required disabled>
+            <label for="{{ field.id_for_label }}">{{ field.label }}<span aria-label="required">*</span></label>
+            {{ field }}
         </div>
-        <div class="form-element">
-            <label for="name">Name<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="name" name="name" placeholder="Monte Carlo" value ="{{ employee.name }}"  pattern="{[a-z],[A-Z], }{3,15}" required>
-        </div>
-        <div class="form-element">
-            <label for="mail">Email<span aria-label="required">*</span></label>
-            <input class="input-field" type="email" id="mail" name="email" placeholder="email@gmail.com" value="{{ employee.email }}" required>
-        </div>
-        <div class="form-element">
-            <label for="address">Address<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki" value="{{ employee.address }}"
-                   required>
-        </div>
-        <div class="form-element">
-            <label for="phone">Phone Number<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="phone" name="phoneNumber" placeholder="01003657364" pattern="[0-9]{11,11}" value="{{ employee.phoneNumber }}" required>
-        </div>
-        <div class="form-element">
-            <label>Marital Status<span aria-label="required">*</span></label>
-            <label for="marital-status-m">
-                <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="married"
-                       required>
-                Married
-            </label>
-            <label for="marital-status-s">
-                <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="single"
-                       required>
-                Single
-            </label>
-        </div>
-        <div class="form-element">
-            <label for="available-vacation-days">Available vacation days<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="available-vacation-days" name="availableVacationDays" min="0" max="120"
-                   value="{{ employee.availableVacationDays }}" required>
-        </div>
-        <div class="form-element">
-            <label for="approved-vacation-days">Approved vacation days<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="approved-vacation-days" name="approvedVacationDays" min="0"
-                   max="120" value="{{ employee.approvedVacationsDays}}" required>
-        </div>
-        <div class="form-element">
-            <label for="salary">Salary<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="salary" name="salary"  min="0" value="{{ employee.salary }}" required>
-        </div>
-        <div class="form-element">
-            <label for="birth-date">Date of birth<span aria-label="required">*</span></label>
-            <input class="input-field" type="date" id="birth-date" name="birthDay" value="{{ employee.birthDay }}" required>
-        </div>
+        {% endfor %}
         <div class="form-element">
             <button id="save-btn" type="submit">Save</button>
             <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Cancel</button></a>
-            <a href="{% url 'searchEmployee' %}"><button id="delete-btn" type="button">Delete Employee</button></a>
+            <a href="{% url 'deleteEmployee' id %}"><button id="delete-btn" type="button">Delete Employee</button></a>
         </div>
+        <p class="errorMessage">{{ errorMessage }}</p>
     </form>
+    {% else %}
+        <p class="errorMessage">{{ errorMessage }}</p>
+        <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Back to Search</button></a>
+    {% endif %}
 </div>
 {% endblock body %}

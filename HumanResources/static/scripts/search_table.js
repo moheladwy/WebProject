@@ -30,9 +30,9 @@ function filterTableRows() {
     let tableRows = table.getElementsByTagName("tr");
     for (let i = 0; i < tableRows.length; i++) {
         let tableCell = tableRows[i].getElementsByTagName("td")[searchBySelectedIndex];
-        
         if (tableCell) {
-            tableCellLowerText = tableCell.innerHTML.toLowerCase();
+            tableCellLowerText = tableCell.textContent.toLowerCase();
+
             if (tableCellLowerText.indexOf(inputLowerText) > -1) {
                 tableRows[i].style.display = ""; // display
             }

@@ -8,5 +8,8 @@ urlpatterns = [
     path('search-employee/', views.searchEmployee, name='searchEmployee'),
     path('search-employee/add-employee/', views.addEmployee, name='addEmployee'),
     path('search-employee/edit-employee/<int:arg_id>', views.editEmployee, name='editEmployee'),
+    path('search-employee/edit-employee/', views.editEmployee, name='editEmployee'),
+    path('search-employee/adit-employee/<int:employeeId>', views.editEmployeeForm, name='editEmployeeForm'),
+    path('search-employee/delete-employee/<int:employeeId>', views.deleteEmployee, name='deleteEmployee'),
     path('search-employee/vacation-form/', views.vacationForm, name='vacationForm')
 ]

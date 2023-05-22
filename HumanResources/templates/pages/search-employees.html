@@ -19,7 +19,7 @@
     <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
     <a href="{% url 'vacations' %}">VACATIONS</a>
 </div>
-<h2>Search for an Employee to fill the vacation form</h2>
+<h2>Search for an Employee</h2>
 <div class="full-table">
     <div class="above-table">
         <div class="search-box">
@@ -54,7 +54,7 @@
                         <td>{{ employee.phoneNumber }}</td>
                         <td>
                             <a href="{% url 'vacationForm' %}"><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
-                            <a href="{% url 'editEmployee' employee.id %}"><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>
+                            <a href="{% url 'editEmployeeForm' employee.id %}"><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>
                         </td>
                     </tr>
                 {% empty %}
