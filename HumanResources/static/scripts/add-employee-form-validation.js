@@ -1,8 +1,5 @@
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    const formBtn = document.getElementById('submit-btn');
+    const form = document.getElementsByTagName('form')[0];
     const id = document.getElementById('id');
     const name = document.getElementById('name');
     const mail = document.getElementById('mail');
@@ -13,17 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const salary = document.getElementById('salary');
     const dob = document.getElementById('birth-day');
 
-    formBtn.addEventListener('click', () => {
+    form.addEventListener('submit', (e) => {
         let isValidForm = true;
-        isValidForm = markField(() => isValidId(id.value), id, document.getElementById('id-error'), "Please Enter a valid id")
-        isValidForm = markField(() => isValidMail(mail.value), mail, document.getElementById('mail-error'), "Please Enter a valid mail")
-        isValidForm = markField(() => isValidName(name.value), name, document.getElementById('name-error'), "Please Enter a valid name");
-        isValidForm = markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phone-error'), "Please Enter a valid Phone Number")
-        isValidForm = markField(() => isValidAddress(address.value), address, document.getElementById('address-error'), "Please Enter a valid Address");
-        isValidForm = markField(() => {return availableVacationDays.value > 120}, availableVacationDays, document.getElementById('available-days-error'), "days cannot be > 120");
-        isValidForm = markField(() => {return approvedVacationDays.value > 120}, approvedVacationDays, document.getElementById('approved-days-error'), "days cannot be > 120");
-        isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salary-error'), "Salary Cannot be > 1,000,000");
-        isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birth-day-error'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo");
+        isValidForm = isValidForm && markField(() => isValidId(id.value), id, document.getElementById('id-error'), "Please Enter a valid id")
+        isValidForm = isValidForm && markField(() => isValidMail(mail.value), mail, document.getElementById('mail-error'), "Please Enter a valid mail")
+        isValidForm = isValidForm && markField(() => isValidName(name.value), name, document.getElementById('name-error'), "Please Enter a valid name");
+        isValidForm = isValidForm && markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phone-error'), "Please Enter a valid Phone Number")
+        isValidForm = isValidForm && markField(() => isValidAddress(address.value), address, document.getElementById('address-error'), "Please Enter a valid Address");
+        isValidForm = isValidForm && markField(() => {return availableVacationDays.value < 120}, availableVacationDays, document.getElementById('available-days-error'), "days cannot be > 120");
+        isValidForm = isValidForm && markField(() => {return approvedVacationDays.value < 120}, approvedVacationDays, document.getElementById('approved-days-error'), "days cannot be > 120");
+        isValidForm = isValidForm && markField(() => isValidSalary(salary.value), salary, document.getElementById('salary-error'), "Salary Cannot be > 1,000,000");
+        isValidForm = isValidForm && markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birth-day-error'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo");
+
+        if (!isValidForm) 
+            e.preventDefault();
     })
 });
 
@@ -51,7 +51,7 @@ function isValidAddress(address)
 
 function isValidSalary(salary)
 {
-    return !(!Number.isNaN(salary) || Number(salary) > 1_000_000);
+    return (!Number.isNaN(salary) || Number(salary) > 1_000_000);
 }
 
 function isValidDob(birthDate) {
@@ -71,7 +71,7 @@ function isValidEgyptPhone(phoneNumber) {
 }
 
 function isValidMail(mail) {
-    const regex = /^[\\w!#$%&'*+/=?^`{|}~-]+(\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,63}$/;
+    const regex = new RegExp("^[\\w!#$%&'*+/=?^`{|}~-]+(\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,63}$");
     return regex.test(mail);
 }
 
