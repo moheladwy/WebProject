@@ -10,7 +10,7 @@
 
 {% block scripts %}    
 <script src="{% static 'scripts/search_table.js' %}" defer="defer"></script>
-{% comment %} <script src="{% static 'scripts/search-employees-onload.js' %}" defer="defer"></script> {% endcomment %}
+<script src="{% static 'scripts/search-employees-onload.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}
@@ -45,24 +45,9 @@
                     <th class="action">Actions</th>
                 </tr>
             </thead>
-            <tbody id="table-body">
-                {% for employee  in employees %}
-                    <tr>
-                        <td><div class="employee-id">{{ employee.id }}</div></td>
-                        <td>{{ employee.name }}</td>
-                        <td>{{ employee.email }}</td>
-                        <td>{{ employee.phoneNumber }}</td>
-                        <td>
-                            <a href="{% url 'vacationForm' employee.id %}"><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
-                            <a href="{% url 'editEmployeeForm' employee.id %}"><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>
-                        </td>
-                    </tr>
-                {% empty %}
-                    <tr>No Employees, try to add one!</tr>
-                {% endfor %}
+            <tbody>
             </tbody>
         </table>
     </div>
 </div>
-
 {% endblock body %}

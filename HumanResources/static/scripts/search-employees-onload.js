@@ -1,72 +1,53 @@
-document.body.onload = searchEmployeesOnload;
+document.body.onload = function (event) {
+    const employeesRequest = new XMLHttpRequest();
+    employeesRequest.open(
+        'GET',
+        window.location.href + 'get-all-employees'
+    );
 
-function searchEmployeesOnload() {
-    populateTable();    
-    addButtonEvents();
-    addVacationButtonEvents();
-}
+    employeesRequest.onreadystatechange = () => {
+        if (employeesRequest.readyState == XMLHttpRequest.DONE && employeesRequest.status == 200) {
+            const response = JSON.parse(employeesRequest.responseText);
+            const employees = response['employees'];
+            populateEmployeesTable(employees);
+        }
+    }
+    employeesRequest.send();
+};
 
-function populateTable() {
-    const employees = loadFromStorage();
-    if (employees === null)
-        return;
+function populateEmployeesTable(employees) {
+    const tbody = document.querySelector('tbody');
+    if (employees) {
+        for (const employee of employees) {
+            const tr = templateSearchTableRow();
 
-    const tableBody = document.getElementById('table-body');
-    console.log(tableBody);
-    
-    for (const id in employees) {
-        const record = templateTableRow();
-        record.children[1].querySelector('.employee-id').innerHTML = employees[id].id;
-        record.children[2].innerHTML = employees[id].name;
-        record.children[3].innerHTML = employees[id].email;
-        record.children[4].innerHTML = employees[id].phone_number;
-        console.log(tableBody);
-        tableBody.appendChild(record);
+            tr.querySelector('.employee-id').innerHTML = employee.id;
+            tr.querySelector('.employee-name').innerHTML = employee.name;
+            tr.querySelector('.employee-email').innerHTML = employee.email;
+            tr.querySelector('.employee-phone-number').innerHTML = employee.phoneNumber;
+            tr.querySelector('#add-vacation-link').href = `/search-employee/vacation-form/${employee.id}`;
+            tr.querySelector('#edit-employee-link').href = `/search-employee/edit-employee/${employee.id}`;
+
+            tbody.appendChild(tr);
+        }
+    }
+    else {
+        const tr = "<tr>No Employees, try to add one!</tr>";
+        tbody.appendChild(tr);
     }
 }
 
-const templateTableRow = () => {
+function templateSearchTableRow() {
     const templateRow = document.createElement('tr');
-    templateRow.innerHTML =
-        `<td><div class="employee-id"></div></td>
-        <td></td>
-        <td></td>
-        <td></td>`;
-
-    const actionsCell = document.createElement('td');
-    actionsCell.innerHTML = 
-    `<a href="{% url 'vacationForm' %}"><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
-    <a href="{% url 'editEmployee' %}"><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>`;
-
-    templateRow.appendChild(actionsCell);
+    templateRow.innerHTML = `
+    <td class="employee-id"></td>
+    <td class="employee-name"></td>
+    <td class="employee-email"></td>
+    <td class="employee-phone-number"></td>
+    <td class="buttons">
+        <a id="add-vacation-link" href=""><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
+        <a id="edit-employee-link" href=""><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>
+    </td>
+    `;
     return templateRow;
-}
-
-function loadFromStorage() {
-    if (!localStorage.getItem('employees'))
-        return null;
-
-    return JSON.parse(localStorage.getItem('employees'));
-}
-
-function addButtonEvents() {
-    const buttons = document.getElementsByClassName('edit-button');
-
-    for (const button of buttons) {
-        button.addEventListener('click', (e) => {
-            const id = button.closest('tr').querySelector('.employee-id').innerHTML;
-            localStorage.setItem('current_edit', id);
-        });
-    }
-}
-
-function addVacationButtonEvents() {
-    const buttons = document.getElementsByClassName('add-vacation-button');
-
-    for (const button of buttons) {
-        button.addEventListener('click', (event) => {
-           const id = button.closest('tr').querySelector('.employee-id').innerHTML;
-           localStorage.setItem('currentAddVacation', id);
-        });
-    }
 }
