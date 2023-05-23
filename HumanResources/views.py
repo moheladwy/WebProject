@@ -67,7 +67,6 @@ def initialFormData(employee: Employee, isDesiabled: bool = True) -> EmployeeFor
         'birthDay': employee.birthDay
     }
     form = EmployeeForm(initial=initialData)
-    # form.id.disabled = isDesiabled
     return form
 
 

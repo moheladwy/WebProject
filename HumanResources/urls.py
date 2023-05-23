@@ -10,6 +10,7 @@ urlpatterns = [
     path('search-employee/add-employee/', views.addEmployee, name='addEmployee'),
     path('search-employee/edit-employee/', views.editEmployee, name='editEmployee'),
     path('search-employee/edit-employee/<int:employeeId>', views.editEmployeeForm, name='editEmployeeForm'),
+    path('search-employee/edit-employee/<int:employeeId>', views.editEmployeeForm, name='editEmployeeForm'),
     path('search-employee/delete-employee/<int:employeeId>', views.deleteEmployee, name='deleteEmployee'),
     path('search-employee/vacation-form/<int:employeeId>', views.vacationForm, name='vacationForm'),
     path('get-employee/<int:employeeId>', views.get_employee),
