@@ -12,5 +12,5 @@ urlpatterns = [
     path('search-employee/edit-employee/<int:employeeId>', views.editEmployeeForm, name='editEmployeeForm'),
     path('search-employee/delete-employee/<int:employeeId>', views.deleteEmployee, name='deleteEmployee'),
     path('search-employee/vacation-form/<int:employeeId>', views.vacationForm, name='vacationForm'),
-    path('search-employee/vacation-form/get-employee/<int:employeeId>', views.get_employee),
+    path('get-employee/<int:employeeId>', views.get_employee),
 ]
