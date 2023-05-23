@@ -6,6 +6,9 @@ from .models import Employee, Vacation
 from .form import EmployeeForm
 from django.core import serializers
 import json
+from rest_framework.parsers import JSONParser
+from .serializers import *
+from django.views.decorators.csrf import csrf_exempt
 
 
 # done.
@@ -126,9 +129,24 @@ def vacations(request: HttpRequest):
 
 
 # done.
-def getVacations(request: HttpRequest):
-    vacations = Vacation.objects.all().values()
-    return JsonResponse({"vacations": list(vacations)})
+def vacation_list(request: HttpRequest):
+    if (request.method == 'GET'):
+        # apply the new serialization here instead
+        vacations = Vacation.objects.all()
+        serializer = VacationSerializer(vacations, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    elif (request.method == 'POST'):
+        data = VacationSerializer(JSONParser().parse(request))
+        serializer = VacationSerializer(data=data)
+        if (serializer.is_valid()):
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        
+        return JsonResponse(serializer.errors, status=400)
+
+
+vacation_list = csrf_exempt(vacation_list)
 
 
 # TODO: to be tested.
@@ -136,6 +154,7 @@ def getEmployees(request: HttpRequest):
     return JsonResponse({'employees': list(Employee.objects.all().values())})
 
 # done.
-def getEmployee(request: HttpRequest, employeeId: int):
-    employee = Employee.objects.filter(id=employeeId).values()[0]
-    return JsonResponse({'employee': employee})
+def employee_deatil(request: HttpRequest, employeeId: int):
+    employee = Employee.objects.get(id=employeeId)
+    serializer = EmployeeSerializer(employee)
+    return JsonResponse(serializer.data)
