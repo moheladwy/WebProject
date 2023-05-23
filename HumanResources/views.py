@@ -93,9 +93,8 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
         return redirect('searchEmployee')
 
     employee = Employee.objects.get(id=employeeId)
-    form = initialFormData(employee)
     return render(request, 'pages/edit-employee.html', {
-        'form': form,
+        'form': EmployeeForm(),
         'id': employee.id
     })
 
