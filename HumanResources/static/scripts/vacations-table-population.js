@@ -8,27 +8,8 @@ document.body.onload = function (event) {
 
     vacationsReq.onreadystatechange = () => {
         if (vacationsReq.readyState === XMLHttpRequest.DONE && vacationsReq.status === 200) {
-            const response = JSON.parse(vacationsReq.responseText);
-            const vacations = response['vacations'];
+            const vacations = JSON.parse(vacationsReq.responseText);
 
-            // get each vacation its employee
-            for (const v of vacations) {
-                const employeeReq = new XMLHttpRequest();
-                employeeReq.open(
-                    'GET',
-                    '/get-employee/' + v.employee_id,
-                    false
-                )
-
-                employeeReq.onreadystatechange = () => {
-                    if (employeeReq.readyState === XMLHttpRequest.DONE
-                        && employeeReq.status === 200) {
-                        const e = JSON.parse(employeeReq.responseText);
-                        v.employee = e['employee'];
-                    }
-                }
-                employeeReq.send();
-            }
             populateVacationsTable(vacations);
         }
     };
