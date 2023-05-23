@@ -23,6 +23,7 @@
     font-weight: bold;
     margin: 0.2em auto;
     padding: 10px;
+    border-radius: 1em;
 }
 
 form {
@@ -74,7 +75,7 @@ textarea {
 }
 
 textarea {
-    margin-left: 185px;
+    margin: auto;
     vertical-align: top;
     height: 5em;
     resize: none;
