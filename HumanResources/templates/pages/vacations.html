@@ -6,8 +6,12 @@
 {% block styleSheets %}
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
 <link rel="stylesheet" href="{% static 'styles/vacations-table-styling.css' %}">
-<script src="{% static 'scripts/vacations-table-population.js' %}" defer="defer"></script>
 {% endblock styleSheets %}
+
+{% block scripts %}
+<script src="{% static 'scripts/vacations-table-population.js' %}" defer="defer"></script>
+{% endblock scripts %}
+    
 
 {% block body %}
 <div class="topnav">

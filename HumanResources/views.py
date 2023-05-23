@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.http import JsonResponse
+import json
 from .models import Employee, Vacation
 from .form import EmployeeForm
-
-import json
 
 
 # done.
@@ -39,8 +38,7 @@ def addEmployee(request: HttpRequest):
         employeeAddress = request.POST.get('address')
         employeeGender = request.POST.get('gender')
         employeeMaritalStatus = request.POST.get('maritalStatus')
-        employeeAvailableVacationDays = request.POST.get(
-            'availableVacationDays')
+        employeeAvailableVacationDays = request.POST.get('availableVacationDays')
         employeeApprovedVacationDays = request.POST.get('approvedVacationDays')
         employeeBirthDate = request.POST.get('birthDay')
         employeeSalary = request.POST.get('salary')
@@ -55,6 +53,7 @@ def addEmployee(request: HttpRequest):
     return render(request, 'pages/add-employee.html')
 
 
+# done.
 def initialFormData(employee: Employee, isDesiabled: bool = True) -> EmployeeForm:
     initialData = {
         'id': employee.id,
@@ -90,10 +89,8 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
         employee.phoneNumber = request.POST.get('phoneNumber')
         employee.address = request.POST.get('address')
         employee.maritalStatus = request.POST.get('maritalStatus')
-        employee.availableVacationDays = request.POST.get(
-            'availableVacationDays')
-        employee.approvedVacationDays = request.POST.get(
-            'approvedVacationDays')
+        employee.availableVacationDays = request.POST.get('availableVacationDays')
+        employee.approvedVacationDays = request.POST.get('approvedVacationDays')
         employee.salary = request.POST.get('salary')
         employee.save()
         return redirect('searchEmployee')
@@ -106,6 +103,7 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
     })
 
 
+# done.
 def deleteEmployee(request: HttpRequest, employeeId: int):
     try:
         employee = Employee.objects.get(id=employeeId)
@@ -119,24 +117,23 @@ def deleteEmployee(request: HttpRequest, employeeId: int):
     return redirect('searchEmployee')
 
 
-# not done.
+# done.
 def vacationForm(request: HttpRequest, employeeId):
     return render(request, 'pages/vacation-form.html')
 
 
-# not done.
+# done.
 def vacations(request: HttpRequest):
-    vacations = Vacation.objects.filter(status='P')
-    return render(request, 'pages/vacations.html', {
-        'vacations': vacations
-    })
+    return render(request, 'pages/vacations.html')
 
 
-def get_vacations(request: HttpRequest):
+# done.
+def getVacations(request: HttpRequest):
     vacations = Vacation.objects.all().values()
     return JsonResponse({"vacations": list(vacations)})
 
 
-def get_employee(request: HttpRequest, employeeId: int):
+# done.
+def getEmployee(request: HttpRequest, employeeId: int):
     employee = Employee.objects.filter(id=employeeId).values()[0]
     return JsonResponse({'employee': employee})
