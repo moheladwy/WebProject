@@ -1,7 +1,7 @@
 document.body.onload = searchEmployeesOnload;
 
 function searchEmployeesOnload() {
-    populateTable();
+    populateTable();    
     addButtonEvents();
     addVacationButtonEvents();
 }

@@ -29,6 +29,7 @@ class Employee(models.Model):
 
     def __str__(self) -> str:
         return f"Employee: {self.name}"
+    
 
 
 class Vacation(models.Model):

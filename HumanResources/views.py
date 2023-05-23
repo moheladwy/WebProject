@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
+from django.http import JsonResponse
 from .models import Employee, Vacation
 from .form import EmployeeForm
-from datetime import datetime
+
+import json
 
 
 # done.
@@ -146,7 +148,7 @@ def deleteEmployee(request: HttpRequest, employeeId: int):
 
 
 # not done.
-def vacationForm(request: HttpRequest):
+def vacationForm(request: HttpRequest, employeeId):
     return render(request, 'pages/vacation-form.html')
 
 
@@ -156,3 +158,14 @@ def vacations(request: HttpRequest):
     return render(request, 'pages/vacations.html', {
         'vacations': vacations
     })
+    
+    
+    
+def get_vacations(request):
+    vacations = Vacation.objects.all().values()
+    return JsonResponse({"vacations": list(vacations)})
+
+
+def get_employee(request, employeeId):
+    employee = Employee.objects.filter(id=employeeId).values()[0]
+    return JsonResponse({'employee': employee})

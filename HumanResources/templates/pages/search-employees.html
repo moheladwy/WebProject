@@ -53,7 +53,7 @@
                         <td>{{ employee.email }}</td>
                         <td>{{ employee.phoneNumber }}</td>
                         <td>
-                            <a href="{% url 'vacationForm' %}"><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
+                            <a href="{% url 'vacationForm' employee.id %}"><button class="add-vacation-button"><i class="fa-solid fa-plus"></i>add vacation</button></a>
                             <a href="{% url 'editEmployeeForm' employee.id %}"><button class="edit-button"><i class="fa-solid fa-pen-to-square"></i>edit employee</button></a>
                         </td>
                     </tr>
@@ -64,4 +64,5 @@
         </table>
     </div>
 </div>
+
 {% endblock body %}
