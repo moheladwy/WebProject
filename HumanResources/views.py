@@ -18,9 +18,7 @@ def home(request: HttpRequest):
 
 # done.
 def searchEmployee(request: HttpRequest):
-    return render(request, 'pages/search-employees.html', {
-        'employees': Employee.objects.all()
-    })
+    return render(request, 'pages/search-employees.html')
 
 
 # done.
@@ -82,7 +80,6 @@ def editEmployee(request: HttpRequest):
 # done.
 def editEmployeeForm(request: HttpRequest, employeeId: int):
     if request.method == 'POST':
-        employee = Employee()
         employee = Employee.objects.get(id=employeeId)
         employee.id = request.POST.get('id')
         employee.name = request.POST.get('name')
@@ -132,6 +129,10 @@ def getVacations(request: HttpRequest):
     vacations = Vacation.objects.all().values()
     return JsonResponse({"vacations": list(vacations)})
 
+
+# TODO: to be tested.
+def getEmployees(request: HttpRequest):
+    return JsonResponse({'employees': list(Employee.objects.all().values())})
 
 # done.
 def getEmployee(request: HttpRequest, employeeId: int):
