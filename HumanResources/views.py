@@ -161,11 +161,11 @@ def vacations(request: HttpRequest):
     
     
     
-def get_vacations(request):
+def get_vacations(request:HttpRequest):
     vacations = Vacation.objects.all().values()
     return JsonResponse({"vacations": list(vacations)})
 
 
-def get_employee(request, employeeId):
+def get_employee(request:HttpRequest, employeeId:int):
     employee = Employee.objects.filter(id=employeeId).values()[0]
     return JsonResponse({'employee': employee})

@@ -74,7 +74,7 @@ textarea {
 }
 
 textarea {
-    margin-left: 185px;
+    margin: auto;
     vertical-align: top;
     height: 5em;
     resize: none;

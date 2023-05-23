@@ -9,7 +9,7 @@
 {% endblock styleSheets %}
 
 {% block scripts %}
-<script src="{% static 'scripts/vacation-form.js' %}" defer="defer"></script>
+{% comment %} <script src="{% static 'scripts/vacation-form.js' %}" defer="defer"></script> {% endcomment %}
 <script src="{% static 'scripts/vacation-form-population.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
@@ -18,21 +18,21 @@
     <h2>Vacation Form</h2>
     <form id="vacation-form" action="{% url 'searchEmployee' %}">
         <div class="form-element">
-            <label for="id">Employee ID</label>
+            <label for="id">Employee ID<span aria-label="required">*</span></label>
             <input id="id" type="text" value="" size="5px" readonly>
         </div>
         <div class="form-element">
-            <label for="start-date">Starting Day</label>
+            <label for="start-date">Starting Day<span aria-label="required">*</span></label>
             <input id="start-date" type="date" name="start-date" min="" required>
             <span id="start-date-error" style="display: none">start date cannot be before today.</span>
         </div>
         <div class="form-element">
-            <label for="end-date">Ending Day</label>
+            <label for="end-date">Ending Day<span aria-label="required">*</span></label>
             <input id="end-date" type="date" name="end-date" min="" required>
             <span id="end-date-error" style="display: none"></span>
         </div>
         <div class="form-element">
-            <label for="reason">Vacation Reason</label>
+            <label for="reason">Vacation Reason<span aria-label="required">*</span></label>
             <textarea id="reason" name="reason" placeholder="Type Your Reason Here!" minlength="100" maxlength="1000" required></textarea>
         </div>
         <br>
