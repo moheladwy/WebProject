@@ -28,8 +28,11 @@ def searchEmployee(request: HttpRequest):
 def addEmployee(request: HttpRequest):
     if request.method == 'POST':
         employeeID = request.POST.get('id')
-        if Employee.objects.get(id=employeeID):
+        try:
+            Employee.objects.get(id=employeeID)
             return render(request, 'pages/add-employee.html', {'errorMessage': 'Employee ID already exists'})
+        except:
+            pass
         employeeName = request.POST.get('name')
         employeeEmail = request.POST.get('email')
         employeePhoneNumber = request.POST.get('phoneNumber')
@@ -50,8 +53,8 @@ def addEmployee(request: HttpRequest):
         )
         return redirect('searchEmployee')
     return render(request, 'pages/add-employee.html')
-    
-    
+
+
 def initialFormData(employee: Employee, isDesiabled: bool = True) -> EmployeeForm:
     initialData = {
         'id': employee.id,
@@ -127,13 +130,13 @@ def vacations(request: HttpRequest):
     return render(request, 'pages/vacations.html', {
         'vacations': vacations
     })
-    
-    
-def get_vacations(request:HttpRequest):
+
+
+def get_vacations(request: HttpRequest):
     vacations = Vacation.objects.all().values()
     return JsonResponse({"vacations": list(vacations)})
 
 
-def get_employee(request:HttpRequest, employeeId:int):
+def get_employee(request: HttpRequest, employeeId: int):
     employee = Employee.objects.filter(id=employeeId).values()[0]
     return JsonResponse({'employee': employee})
