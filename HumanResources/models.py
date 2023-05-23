@@ -48,3 +48,6 @@ class Vacation(models.Model):
 
     def __str__(self) -> str:
         return f"{self.employee} wants to take a vacation from {self.startDate} to {self.endDate}."
+    
+    
+   
