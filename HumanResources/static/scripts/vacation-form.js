@@ -1,20 +1,18 @@
 const pendingVacations = getPendingVacations();
-const employees = loadFromStorage();
-const employeeID = localStorage.getItem('currentAddVacation');
-const employeeData = employees[employeeID];
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById('vacation-form');
     const submitButton = document.getElementById('submit-btn');
     const vacationReason = document.getElementById('reason');
-    const availableVacationDays = employeeData['vacation_days'];
-    // get references to the date inputs
+
     const startDateInput = document.getElementById('start-date');
     const startDateErrorSpan = document.getElementById('start-date-error');
     const endDateInput = document.getElementById('end-date');
     const endDateErrorSpan = document.getElementById('end-date-error');
-    setInputID(employeeID);
+    
+    // setInputID(employeeID);
     setMinStartDate(startDateInput);
-    // add an event listener to the start-date input to update the minimum date for the end-date input
+
     startDateInput.addEventListener('input', function() {
         // get the value of the start-date input
         const startDateValue = startDateInput.value;
@@ -45,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             endDateErrorSpan.style.display = 'none';
         }
     });
+    
     submitButton.addEventListener('click', (event) => {
         const differenceInDays = dateDiffInDays(startDateInput.value, endDateInput.value) + 1;
         const pendingVacation = {};
@@ -54,40 +53,26 @@ document.addEventListener("DOMContentLoaded", () => {
         pendingVacation["vacationReason"] = vacationReason.value;
         pendingVacation["availableVacationDays"] = availableVacationDays;
         pendingVacation["numberVacationDays"] = differenceInDays.toString();
-        savePendingVacationsArray(pendingVacation);
         form.submit();
     });
 });
-function loadFromStorage (){
-    if (!localStorage.getItem('employees')) {
-        return null;
-    }
-    return JSON.parse(localStorage.getItem('employees'));
-}
+
 function setInputID(employeeID) {
     const id = document.getElementById('id');
     id.value = employeeID;
 }
+
 function setMinStartDate(startDateInput) {
     // set the minimum date for the start-date input to today
     const todayDate = new Date().toISOString().split('T')[0];
     startDateInput.setAttribute('min', todayDate);
 }
+
 function dateDiffInDays(dateStr1, dateStr2) {
     const date1 = new Date(Date.parse(dateStr1));
     const date2 = new Date(Date.parse(dateStr2));
+
     const diffInMs = date2 - date1;
     const diffInDays = diffInMs / (24 * 60 * 60 * 1000);
     return Math.floor(diffInDays);
-}
-function savePendingVacationsArray(pendingVacation = {}) {
-    pendingVacations[employeeID] = pendingVacation;
-    localStorage.setItem('pendingVacations', JSON.stringify(pendingVacations));
-    localStorage.removeItem('currentAddVacation');
-}
-function getPendingVacations() {
-    if (!localStorage.getItem('pendingVacations')) {
-        return {};
-    }
-    return JSON.parse(localStorage.getItem('pendingVacations'));
 }
