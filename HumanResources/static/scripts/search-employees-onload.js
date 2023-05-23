@@ -13,6 +13,7 @@ function populateTable() {
 
     const tableBody = document.getElementById('table-body');
     console.log(tableBody);
+    
     for (const id in employees) {
         const record = templateTableRow();
         record.children[1].querySelector('.employee-id').innerHTML = employees[id].id;

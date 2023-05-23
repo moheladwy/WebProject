@@ -2,17 +2,12 @@ var currentEmployee; // DO NOT USE BEFORE populateVacationForm RUNS!
 
 document.body.onload = () => {
 
-    const urlArray = window.location.href.split('/');
-    const employeeId = urlArray.pop();
-    let url = '';
-    for (const i of urlArray) {
-        url += (i + '/');
-    }
+    const employeeId = window.location.href.split('/').pop();
 
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         'GET',
-        url + 'get-employee/' + employeeId
+        '/get-employee/' + employeeId
     );
 
     xhttp.onreadystatechange = () => {
