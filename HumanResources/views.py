@@ -52,6 +52,37 @@ def addEmployee(request: HttpRequest):
     return render(request, 'pages/add-employee.html')
 
 
+# to be tested.
+def editEmployee(request, arg_id):
+    if request.method == 'POST':
+        employee = Employee.objects.get(id=arg_id)
+        
+        # if not Employee.objects.filter(id=request.POST.get('id')):
+        #     return render(request, 'pages/add-employee.html', {'errorMessage': 'Employee ID does not exist'})
+        
+        employee.name = request.POST.get('name')
+        employee.email = request.POST.get('email')
+        employee.phoneNumber = request.POST.get('phoneNumber')
+        employee.address = request.POST.get('address')
+        employee.maritalStatus = request.POST.get('maritalStatus')
+        employee.availableVacationDays = request.POST.get('availableVacationDays')
+        employee.approvedVacationDays = request.POST.get('approvedVacationDays')
+        employee.birthDay = request.POST.get('birthDay')
+        employee.salary = request.POST.get('salary')
+        employee.save()
+        
+        return render(request, 'pages/search-employees.html', {
+            'employees': Employee.objects.all()
+        })
+        
+    employee = Employee.objects.filter(id=arg_id)
+    
+    return render(request, 'pages/edit-employee.html', {
+        'employee': employee[0]
+        })
+    
+    
+    
 def initialFormData(employee: Employee, isDesiabled: bool = True) -> EmployeeForm:
     initialData = {
         'id': employee.id,
