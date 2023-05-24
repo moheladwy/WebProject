@@ -1,14 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
-from django.http import JsonResponse, HttpResponse
-import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpRequest, JsonResponse, HttpResponse
+from HumanResources.serializers import EmployeeSerializer, VacationSerializer
 from .models import Employee, Vacation
 from .form import EmployeeForm
-from django.core import serializers
 import json
-from rest_framework.parsers import JSONParser
-from .serializers import *
-from django.views.decorators.csrf import csrf_exempt
 
 
 # done.
@@ -86,7 +82,6 @@ def editEmployee(request: HttpRequest):
 def editEmployeeForm(request: HttpRequest, employeeId: int):
     if request.method == 'POST':
         employee = Employee.objects.get(id=employeeId)
-        employee.id = request.POST.get('id')
         employee.name = request.POST.get('name')
         employee.phoneNumber = request.POST.get('phoneNumber')
         employee.address = request.POST.get('address')
@@ -98,8 +93,9 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
         return redirect('searchEmployee')
 
     employee = Employee.objects.get(id=employeeId)
+    form = initialFormData(employee)
     return render(request, 'pages/edit-employee.html', {
-        'form': EmployeeForm(),
+        'form': form,
         'id': employee.id
     })
 
