@@ -5,7 +5,7 @@ from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from .models import Employee, Vacation
 from .form import EmployeeForm
-from .serialaizers import *
+from .serializers import *
 
 # done.
 def index(request: HttpRequest):
