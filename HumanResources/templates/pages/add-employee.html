@@ -36,8 +36,8 @@
 {% block body %}
 <div class="form-container">
     <h2>Add an Employee</h2>
+    {% csrf_token %}
     <form id="add-employee-form" action="{% url 'addEmployee' %}" method="post">
-        {% csrf_token %}
         <div class="form-element">
             <label for="id">Employee ID<span aria-label="required">*</span></label>
             <input class="input-field" type="text" id="id" name="id" placeholder="20230000">
@@ -55,8 +55,8 @@
         </div>
         <div class="form-element">
             <label for="address">Address<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki">
-            <small id="address-error"> error message </small>
+            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki"
+            required>
         </div>
         <div class="form-element">
             <label for="phone">Phone Number<span aria-label="required">*</span></label>
@@ -76,13 +76,15 @@
         </div>
         <div class="form-element">
             <label>Marital Status<span aria-label="required">*</span></label>
-
+            
             <label for="marital-status-m">
-                <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="married" required>
+                <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="married"
+                required>
                 Married
             </label>
             <label for="marital-status-s">
-                <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="single" required>
+                <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="single"
+                required>
                 Single
             </label>
         </div>
@@ -93,15 +95,14 @@
         </div>
         <div class="form-element">
             <label for="approved-vacation-days">Approved vacation days<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="approvedVacationDays" name="approvedVacationDays" min="0" value="0">
-            <small id="approvedVacationDays-error"> error message </small>
-        </div>
-        <div class="form-element">
-            <label for="salary">Salary<span aria-label="required">*</span></label>
-            <input class="input-field" type="tel" id="salary" name="salary" maxlength="6">
-            <small id="salary-error"> error message </small>
-        </div>
-        <div class="form-element">
+            <input class="input-field" type="number" id="approved-vacation-days" name="approvedVacationDays" min="0"
+                    max="90" value="0" required>
+                </div>
+                <div class="form-element">
+                    <label for="salary">Salary<span aria-label="required">*</span></label>
+                    <input class="input-field" type="tel" id="salary" name="salary" maxlength="6" required>
+                </div>
+                <div class="form-element">
             <label for="birth-date">Date of birth<span aria-label="required">*</span></label>
             <input class="input-field" type="date" id="birth-day" name="birthDay">
             <small id="birth-day-error"> error message </small>
@@ -112,7 +113,7 @@
         </div>
         {% if errorMessage %}
             <p class="errorMessage">{{ errorMessage }}</p>
-        {% endif %}
-    </form>
-</div> 
-{% endblock body %}
+            {% endif %}
+        </form>
+    </div> 
+    {% endblock body %}

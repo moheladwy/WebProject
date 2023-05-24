@@ -29,39 +29,31 @@ function populateVacationForm() {
     idInput.value = currentEmployee.id;
 }
 
+
 document.getElementById('submit-btn').onclick = () => {
     if (validateForm()) {
-        vacation = {}
-        
         const data = new FormData(form);
-        for (const [kye, value] of data.entries()) {
-            vacation[kye] = value;
-        }
 
-        vacation.employee = currentEmployee;
+        data.append('employee', JSON.stringify(currentEmployee));
+        data.append('status', 'P');
 
         const postReq = new XMLHttpRequest();
+
         postReq.open(
             'POST',
-            '/vacations/'
+            '/vacations/vacation-list'
         )
 
-        postReq.setRequestHeader('Content-type', 'application/json');
-
         postReq.onreadystatechange = () => {
-            if (postReq.readyState === XMLHttpRequest.DONE && postReq.status === 200) {
-                window.location.replace('/vacations');
+            if (postReq.readyState === XMLHttpRequest.DONE) {
+                if (postReq.status === 201)
+                    window.location.replace('/vacations');
+                else
+                    prompt('BAD REQUEST.');
             }
         }
 
-        let urlEncodedDataPairs = [];
-        for (const name in vacation) {
-            urlEncodedDataPairs.push(encodeURIComponent(name)+'='+encodeURIComponent(vacation[name]));
-        }
-
-        
-
-        postReq.send(urlEncodedDataPairs);
+        postReq.send(data);
     }
 }
 

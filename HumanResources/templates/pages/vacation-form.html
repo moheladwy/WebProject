@@ -11,12 +11,16 @@
 {% block scripts %}
 {% comment %} <script src="{% static 'scripts/vacation-form.js' %}" defer="defer"></script> {% endcomment %}
 <script src="{% static 'scripts/vacation-form-population.js' %}" defer="defer"></script>
+
+<div id="csrf-token">{% csrf_token %}</div>
+
 {% endblock scripts %}
 
 {% block body %}
 <div class="form-container">
     <h2>Vacation Form</h2>
-    <form id="vacation-form" action="{% url 'searchEmployee' %}">
+    <form id="vacation-form" action="">
+        {% csrf_token %}
         <div class="form-element">
             <label for="id">Employee ID<span aria-label="required">*</span></label>
             <input id="id" type="text" value="" size="5px" readonly>
@@ -37,7 +41,7 @@
         </div>
         <br>
         <div class="form-element">
-            <button id="submit-btn" type="submit">Submit</button>
+            <button id="submit-btn" type="button">Submit</button>
             <a href="{% url 'searchEmployee' %}"><button type="button">Back</button></a>
         </div>
     </form>

@@ -3,7 +3,7 @@ document.body.onload = function (event) {
     const vacationsReq = new XMLHttpRequest();
     vacationsReq.open(
         'GET',
-        window.location.href + 'get-all'
+        window.location.href + 'vacation-list'
     );
 
     vacationsReq.onreadystatechange = () => {
