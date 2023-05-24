@@ -23,6 +23,11 @@ export function isValidVacationDuration(startDateStr, endDateStr) {
     return startDateInMs.getDate() >= currTime.getDate();
 }
 
+export function isValidReason(message)
+{
+    return message.length >= 100 && message.length <= 1000;
+}
+
 
 export function isValidId(id) {
     const regex = /^(2023)(\d){4}$/;
