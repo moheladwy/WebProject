@@ -4,10 +4,10 @@ from django.http import JsonResponse
 import json
 from .models import Employee, Vacation
 from .form import EmployeeForm
-from django.core import serialaizers
+from django.core import serializers
 import json
 from rest_framework.parsers import JSONParser
-from .serialaizers import *
+from .serializers import *
 from django.views.decorators.csrf import csrf_exempt
 
 
