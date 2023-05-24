@@ -81,7 +81,7 @@ def editEmployee(request: HttpRequest):
 def editEmployeeForm(request: HttpRequest, employeeId: int):
     if request.method == 'POST':
         employee = Employee.objects.get(id=employeeId)
-        employee.id = request.POST.get('id')
+        # employee.id = request.POST.get('id')
         employee.name = request.POST.get('name')
         employee.phoneNumber = request.POST.get('phoneNumber')
         employee.address = request.POST.get('address')
@@ -93,8 +93,9 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
         return redirect('searchEmployee')
 
     employee = Employee.objects.get(id=employeeId)
+    form = initialFormData(employee)
     return render(request, 'pages/edit-employee.html', {
-        'form': EmployeeForm(),
+        'form': form,
         'id': employee.id
     })
 
