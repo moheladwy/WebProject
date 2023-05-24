@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpRequest, JsonResponse, HttpResponse
+from HumanResources.serializers import EmployeeSerializer, VacationSerializer
 from .models import Employee, Vacation
 from .form import EmployeeForm
-from .serializers import *
 import json
+
 
 # done.
 def index(request: HttpRequest):
@@ -81,7 +82,6 @@ def editEmployee(request: HttpRequest):
 def editEmployeeForm(request: HttpRequest, employeeId: int):
     if request.method == 'POST':
         employee = Employee.objects.get(id=employeeId)
-        # employee.id = request.POST.get('id')
         employee.name = request.POST.get('name')
         employee.phoneNumber = request.POST.get('phoneNumber')
         employee.address = request.POST.get('address')
