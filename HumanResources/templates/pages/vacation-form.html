@@ -34,11 +34,8 @@
 
 {% block scripts %}
 {% comment %} <script src="{% static 'scripts/vacation-form.js' %}" defer="defer"></script> {% endcomment %}
-<script src="{% static 'scripts/vacation-form-population.js' %}" defer="defer"></script>
 
-<div id="csrf-token">{% csrf_token %}</div>
-
-<script type="module" src="{% static 'scripts/vacation-form-validation.js' %}" defer="defer"></script>
+<script type="module" src="{% static 'scripts/vacation-form-population.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}

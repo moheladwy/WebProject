@@ -1,3 +1,5 @@
+import { isValidVacationForm } from "./vacation-form-validation.js";
+
 const form = document.getElementById('vacation-form');
 
 var currentEmployee;
@@ -34,7 +36,7 @@ function getCSRFToken() {
 }
 
 document.getElementById('submit-btn').onclick = () => {
-    if (validateForm()) {
+    if (isValidVacationForm()) {
         const data = new FormData(form);
 
         // this does not belong to the functionality, this is a solution 
@@ -73,10 +75,4 @@ document.getElementById('submit-btn').onclick = () => {
 
         postReq.send(data);
     }
-}
-
-function validateForm() {
-    // TODO - (Shehab) implement plz
-
-    return true;
 }
