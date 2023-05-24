@@ -29,10 +29,28 @@ function populateVacationForm() {
     idInput.value = currentEmployee.id;
 }
 
+function getCSRFToken() {
+    return document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+}
 
 document.getElementById('submit-btn').onclick = () => {
     if (validateForm()) {
         const data = new FormData(form);
+
+        // this does not belong to the functionality, this is a solution 
+        // for a really bad problem I had some morning back in the day
+        const vacation = {
+            employee: currentEmployee,
+            startDate: form.querySelector('#start-date').value,
+            endDate: form.querySelector('#end-date').value,
+            vacationReason: form.querySelector('#reason').value,
+            status: 'P',
+        }
+
+        const newData = new FormData();
+        newData.append('csrfmiddlewaretoken', getCSRFToken());
+        newData.append('vacation', JSON.stringify(vacation));
+        // ************************************************************
 
         data.append('employee', JSON.stringify(currentEmployee));
         data.append('status', 'P');
