@@ -20,9 +20,13 @@
     <a href="{% url 'vacations' %}">VACATIONS</a>
 </div>
 <h2>Submitted Vacations List</h2>
+<form id="temp-form" action="">
+    {% csrf_token %}
+</form>
 <div class="full-table">
     <div class="above-table"></div>
     <div class="table-wrapper">
+        
         <table>
             <thead>
                 <tr>

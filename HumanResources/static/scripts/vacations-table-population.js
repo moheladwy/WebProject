@@ -1,5 +1,8 @@
-document.body.onload = function (event) {
+const tempForm = document.getElementById('temp-form');
 
+document.body.onload = beginLoadVacations;
+
+function beginLoadVacations(event) {
     const vacationsReq = new XMLHttpRequest();
     vacationsReq.open(
         'GET',
@@ -17,8 +20,13 @@ document.body.onload = function (event) {
     vacationsReq.send();
 }
 
+function getCSRFToken() {
+    return document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+}
+
 function populateVacationsTable(vacations) {
     const tbody = document.querySelector('.full-table').querySelector('tbody');
+    tbody.innerHTML = '';
 
     for (const v of vacations) {
         // if the vacation is pending, show it
@@ -34,6 +42,44 @@ function populateVacationsTable(vacations) {
             tr.querySelector('.vacation-reason').innerHTML = v.vacationReason;
 
             tbody.appendChild(tr);
+
+            tr.querySelector('.approve-button').addEventListener('click', () => {
+                const putReq = new XMLHttpRequest();
+                putReq.open(
+                    'POST',
+                    '/vacations/update-vacation/' + v.id
+                );
+
+                putReq.onreadystatechange = () => {
+                    if (putReq.readyState === XMLHttpRequest.DONE) {
+                        beginLoadVacations();
+                    }
+                };
+
+                data = new FormData(tempForm);
+                data.append('status', 'R');
+                
+                putReq.send(data);
+            });
+
+            tr.querySelector('.reject-button').addEventListener('click', () => {
+                const putReq = new XMLHttpRequest();
+                putReq.open(
+                    'POST',
+                    '/vacations/update-vacation/' + v.id
+                );
+
+                putReq.onreadystatechange = () => {
+                    if (putReq.readyState === XMLHttpRequest.DONE) {
+                        beginLoadVacations();
+                    }
+                };
+
+                data = new FormData(tempForm);
+                data.append('status', 'R');
+
+                putReq.send(data);
+            });
         }
     }
 }
@@ -55,3 +101,5 @@ function templateTableRow() {
 `;
     return templateRow;
 }
+
+
