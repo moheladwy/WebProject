@@ -1,34 +1,18 @@
-document.body.onload = function (event) {
+const tempForm = document.getElementById('temp-form');
 
+document.body.onload = beginLoadVacations;
+
+function beginLoadVacations(event) {
     const vacationsReq = new XMLHttpRequest();
     vacationsReq.open(
         'GET',
-        window.location.href + 'get-all'
+        window.location.href + 'vacation-list'
     );
 
     vacationsReq.onreadystatechange = () => {
         if (vacationsReq.readyState === XMLHttpRequest.DONE && vacationsReq.status === 200) {
-            const response = JSON.parse(vacationsReq.responseText);
-            const vacations = response['vacations'];
+            const vacations = JSON.parse(vacationsReq.responseText);
 
-            // get each vacation its employee
-            for (const v of vacations) {
-                const employeeReq = new XMLHttpRequest();
-                employeeReq.open(
-                    'GET',
-                    '/get-employee/' + v.employee_id,
-                    false
-                )
-
-                employeeReq.onreadystatechange = () => {
-                    if (employeeReq.readyState === XMLHttpRequest.DONE
-                        && employeeReq.status === 200) {
-                        const e = JSON.parse(employeeReq.responseText);
-                        v.employee = e['employee'];
-                    }
-                }
-                employeeReq.send();
-            }
             populateVacationsTable(vacations);
         }
     };
@@ -36,8 +20,13 @@ document.body.onload = function (event) {
     vacationsReq.send();
 }
 
+function getCSRFToken() {
+    return document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+}
+
 function populateVacationsTable(vacations) {
     const tbody = document.querySelector('.full-table').querySelector('tbody');
+    tbody.innerHTML = '';
 
     for (const v of vacations) {
         // if the vacation is pending, show it
@@ -53,6 +42,44 @@ function populateVacationsTable(vacations) {
             tr.querySelector('.vacation-reason').innerHTML = v.vacationReason;
 
             tbody.appendChild(tr);
+
+            tr.querySelector('.approve-button').addEventListener('click', () => {
+                const putReq = new XMLHttpRequest();
+                putReq.open(
+                    'POST',
+                    '/vacations/update-vacation/' + v.id
+                );
+
+                putReq.onreadystatechange = () => {
+                    if (putReq.readyState === XMLHttpRequest.DONE) {
+                        beginLoadVacations();
+                    }
+                };
+
+                data = new FormData(tempForm);
+                data.append('status', 'R');
+                
+                putReq.send(data);
+            });
+
+            tr.querySelector('.reject-button').addEventListener('click', () => {
+                const putReq = new XMLHttpRequest();
+                putReq.open(
+                    'POST',
+                    '/vacations/update-vacation/' + v.id
+                );
+
+                putReq.onreadystatechange = () => {
+                    if (putReq.readyState === XMLHttpRequest.DONE) {
+                        beginLoadVacations();
+                    }
+                };
+
+                data = new FormData(tempForm);
+                data.append('status', 'R');
+
+                putReq.send(data);
+            });
         }
     }
 }
@@ -74,3 +101,5 @@ function templateTableRow() {
 `;
     return templateRow;
 }
+
+

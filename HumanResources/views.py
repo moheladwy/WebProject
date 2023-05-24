@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
-from django.http import JsonResponse
-import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpRequest, JsonResponse, HttpResponse
+from HumanResources.serializers import EmployeeSerializer, VacationSerializer
 from .models import Employee, Vacation
 from .form import EmployeeForm
+import json
 
 
 # done.
@@ -81,7 +82,6 @@ def editEmployee(request: HttpRequest):
 def editEmployeeForm(request: HttpRequest, employeeId: int):
     if request.method == 'POST':
         employee = Employee.objects.get(id=employeeId)
-        employee.id = request.POST.get('id')
         employee.name = request.POST.get('name')
         employee.phoneNumber = request.POST.get('phoneNumber')
         employee.address = request.POST.get('address')
@@ -93,8 +93,9 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
         return redirect('searchEmployee')
 
     employee = Employee.objects.get(id=employeeId)
+    form = initialFormData(employee)
     return render(request, 'pages/edit-employee.html', {
-        'form': EmployeeForm(),
+        'form': form,
         'id': employee.id
     })
 
@@ -124,16 +125,59 @@ def vacations(request: HttpRequest):
 
 
 # done.
-def getVacations(request: HttpRequest):
-    vacations = Vacation.objects.all().values()
-    return JsonResponse({"vacations": list(vacations)})
+def vacation_list(request):
+    if (request.method == 'GET'):
+        # apply the new serialization here instead
+        vacations = Vacation.objects.all()
+        serializer = VacationSerializer(vacations, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    elif (request.method == 'POST'):        
+        requestData = {
+            "employee": json.loads(request.POST.get('employee')),
+            "startDate": request.POST.get('start-date'),
+            "endDate": request.POST.get('end-date'),
+            "vacationReason": request.POST.get('reason'),
+            "status": request.POST.get("status"),
+        }
+        
+        employee = Employee.objects.get(id=(requestData['employee']['id']))
+        
+        vacation = Vacation.objects.create(
+            employee=employee,
+            startDate=requestData['startDate'],
+            endDate=requestData['endDate'],
+            vacationReason=requestData['vacationReason'],
+            status=requestData['status'],
+        )
+        vacation.save()
+        
+        serializer = VacationSerializer(data=requestData.pop('employee'))
+        serializer.is_valid()
+        return JsonResponse(serializer.data, status=201)
+
+
+def update_vacation(request, vacationId):
+    if (request.method == 'POST'):
+        vacation = Vacation.objects.get(pk=vacationId)
+        if not vacation:
+            return HttpResponse(status=404)
+        
+        vacation.status = request.POST.get('status')
+        vacation.save()
+        return HttpResponse(status=302) # found
+    
+    else:
+        render(request, 'search-employee.html')
 
 
 # TODO: to be tested.
 def getEmployees(request: HttpRequest):
     return JsonResponse({'employees': list(Employee.objects.all().values())})
 
+
 # done.
-def getEmployee(request: HttpRequest, employeeId: int):
-    employee = Employee.objects.filter(id=employeeId).values()[0]
-    return JsonResponse({'employee': employee})
+def employee_deatil(request: HttpRequest, employeeId: int):
+    employee = Employee.objects.get(id=employeeId)
+    serializer = EmployeeSerializer(employee)
+    return JsonResponse(serializer.data)

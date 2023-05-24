@@ -3,7 +3,7 @@
 
 {% block title %}Add Employee{% endblock title %}
 
-{% block styleSheets %}        
+{% block styleSheets %}
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
 <link rel="stylesheet" href="{% static 'styles/form-style.css' %}">
 <style>
@@ -55,8 +55,8 @@
         </div>
         <div class="form-element">
             <label for="address">Address<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki">
-            <small id="address-error"> error message </small>
+            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki"
+                required>
         </div>
         <div class="form-element">
             <label for="phone">Phone Number<span aria-label="required">*</span></label>
@@ -76,7 +76,6 @@
         </div>
         <div class="form-element">
             <label>Marital Status<span aria-label="required">*</span></label>
-
             <label for="marital-status-m">
                 <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="married" required>
                 Married
@@ -93,13 +92,12 @@
         </div>
         <div class="form-element">
             <label for="approved-vacation-days">Approved vacation days<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="approvedVacationDays" name="approvedVacationDays" min="0" value="0">
-            <small id="approvedVacationDays-error"> error message </small>
+            <input class="input-field" type="number" id="approved-vacation-days" name="approvedVacationDays" min="0"
+                max="90" value="0" required disabled>
         </div>
         <div class="form-element">
             <label for="salary">Salary<span aria-label="required">*</span></label>
-            <input class="input-field" type="tel" id="salary" name="salary" maxlength="6">
-            <small id="salary-error"> error message </small>
+            <input class="input-field" type="tel" id="salary" name="salary" maxlength="6" required>
         </div>
         <div class="form-element">
             <label for="birth-date">Date of birth<span aria-label="required">*</span></label>
@@ -111,8 +109,8 @@
             <a href="{% url 'searchEmployee' %}"><button type="button">Back</button></a>
         </div>
         {% if errorMessage %}
-            <p class="errorMessage">{{ errorMessage }}</p>
+        <p class="errorMessage">{{ errorMessage }}</p>
         {% endif %}
     </form>
-</div> 
+</div>
 {% endblock body %}

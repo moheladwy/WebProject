@@ -1,16 +1,16 @@
 import { isValidReason, isValidVacationDuration, markField } from "./helper-validations.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    const submit = document.getElementById('submit-btn');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const submit = document.getElementById('submit-btn');
     
-    submit.addEventListener('click', (e) => {
-        if (!isValidVacationForm()) {
-            e.preventDefault();
-        }
-    })
-})
+//     submit.addEventListener('click', (e) => {
+//         if (!isValidVacationForm()) {
+//             e.preventDefault();
+//         }
+//     })
+// })
 
-function isValidVacationForm()
+export function isValidVacationForm()
 {
     const startDate = document.getElementById('start-date');
     const endDate = document.getElementById('end-date');

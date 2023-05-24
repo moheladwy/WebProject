@@ -1,4 +1,8 @@
-var currentEmployee; // DO NOT USE BEFORE populateVacationForm RUNS!
+import { isValidVacationForm } from "./vacation-form-validation.js";
+
+const form = document.getElementById('vacation-form');
+
+var currentEmployee;
 
 document.body.onload = () => {
 
@@ -7,24 +11,68 @@ document.body.onload = () => {
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         'GET',
-        '/get-employee/' + employeeId
+        '/get-employee/' + employeeId,
+        false
     );
 
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-            const data = JSON.parse(xhttp.responseText);
-            populateVacationForm(data['employee']);
+            currentEmployee = JSON.parse(xhttp.responseText);
+            populateVacationForm();
         }
     }
 
     xhttp.send();
 };
 
-function populateVacationForm(employee) {
-    currentEmployee = employee;
-
-    const form = document.getElementById('vacation-form');
+function populateVacationForm() {
     const idInput = form.querySelector('#id');
     idInput.disabled = true;
-    idInput.value = employee.id;
+    idInput.value = currentEmployee.id;
+}
+
+function getCSRFToken() {
+    return document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+}
+
+document.getElementById('submit-btn').onclick = () => {
+    if (isValidVacationForm()) {
+        const data = new FormData(form);
+
+        // this does not belong to the functionality, this is a solution 
+        // for a really bad problem I had some morning back in the day
+        const vacation = {
+            employee: currentEmployee,
+            startDate: form.querySelector('#start-date').value,
+            endDate: form.querySelector('#end-date').value,
+            vacationReason: form.querySelector('#reason').value,
+            status: 'P',
+        }
+
+        const newData = new FormData();
+        newData.append('csrfmiddlewaretoken', getCSRFToken());
+        newData.append('vacation', JSON.stringify(vacation));
+        // ************************************************************
+
+        data.append('employee', JSON.stringify(currentEmployee));
+        data.append('status', 'P');
+
+        const postReq = new XMLHttpRequest();
+
+        postReq.open(
+            'POST',
+            '/vacations/vacation-list'
+        );
+
+        postReq.onreadystatechange = () => {
+            if (postReq.readyState === XMLHttpRequest.DONE) {
+                if (postReq.status === 201)
+                    window.location.replace('/vacations');
+                else
+                    prompt('BAD REQUEST.');
+            }
+        };
+
+        postReq.send(data);
+    }
 }
