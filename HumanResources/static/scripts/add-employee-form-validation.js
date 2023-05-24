@@ -1,31 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementsByTagName('form')[0];
-    const id = document.getElementById('id');
-    const name = document.getElementById('name');
-    const mail = document.getElementById('mail');
-    const address = document.getElementById('address');
-    const phone = document.getElementById('phone');
-    const availableVacationDays = document.getElementById('available-vacation-days');
-    const approvedVacationDays = document.getElementById('approved-vacation-days');
-    const salary = document.getElementById('salary');
-    const dob = document.getElementById('birth-day');
+    const formBtn = document.getElementById('submit-btn');
 
-    form.addEventListener('submit', (e) => {
-        let isValidForm = true;
-        isValidForm = isValidForm && markField(() => isValidId(id.value), id, document.getElementById('id-error'), "Please Enter a valid id")
-        isValidForm = isValidForm && markField(() => isValidMail(mail.value), mail, document.getElementById('mail-error'), "Please Enter a valid mail")
-        isValidForm = isValidForm && markField(() => isValidName(name.value), name, document.getElementById('name-error'), "Please Enter a valid name");
-        isValidForm = isValidForm && markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phone-error'), "Please Enter a valid Phone Number")
-        isValidForm = isValidForm && markField(() => isValidAddress(address.value), address, document.getElementById('address-error'), "Please Enter a valid Address");
-        isValidForm = isValidForm && markField(() => {return availableVacationDays.value < 120}, availableVacationDays, document.getElementById('available-days-error'), "days cannot be > 120");
-        isValidForm = isValidForm && markField(() => {return approvedVacationDays.value < 120}, approvedVacationDays, document.getElementById('approved-days-error'), "days cannot be > 120");
-        isValidForm = isValidForm && markField(() => isValidSalary(salary.value), salary, document.getElementById('salary-error'), "Salary Cannot be > 1,000,000");
-        isValidForm = isValidForm && markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birth-day-error'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo");
+    formBtn.addEventListener('click', (e) => {
 
-        if (!isValidForm) 
+        if (!isValidAddEmployeeForm()) 
             e.preventDefault();
     })
 });
+
+function isValidAddEmployeeForm()
+{
+    const id = document.getElementById('id');
+    const name = document.getElementById('name');
+    const mail = document.getElementById('email');
+    const address = document.getElementById('address');
+    const phone = document.getElementById('phoneNumber');
+    const availableVacationDays = document.getElementById('availableVacationDays');
+    const approvedVacationDays = document.getElementById('approvedVacationDays');
+    const salary = document.getElementById('salary');
+    const dob = document.getElementById('birth-day');
+
+    
+    let isValidForm = true;
+
+    isValidForm = markField(() => isValidId(id.value), id, document.getElementById('id-error'), "Please Enter a valid id") && isValidForm;
+    isValidForm = markField(() => isValidMail(mail.value), mail, document.getElementById('email-error'), "Please Enter a valid mail") && isValidForm;
+    isValidForm = markField(() => isValidName(name.value), name, document.getElementById('name-error'), "Please Enter a valid name") && isValidForm;
+    isValidForm = markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phoneNumber-error'), "Please Enter a valid Phone Number") && isValidForm;
+    isValidForm = markField(() => isValidAddress(address.value), address, document.getElementById('address-error'), "Please Enter a valid Address") && isValidForm;
+    isValidForm = markField(() => {return availableVacationDays.value < 120}, availableVacationDays, document.getElementById('availableVacationDays-error'), "days cannot be > 120") && isValidForm;
+    isValidForm = markField(() => {return approvedVacationDays.value < 120}, approvedVacationDays, document.getElementById('approvedVacationDays-error'), "days cannot be > 120") && isValidForm;
+    isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salary-error'), "Salary Cannot be > 1,000,000") && isValidForm;
+    isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birth-day-error'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo") && isValidForm;
+
+    return isValidForm;
+}
 
 
 function markField(isValid, inputField, errorLabel, message)
@@ -51,7 +60,10 @@ function isValidAddress(address)
 
 function isValidSalary(salary)
 {
-    return (!Number.isNaN(salary) || Number(salary) > 1_000_000);
+    if (!salary)
+        return false;
+        
+    return !(isNaN(salary) || Number(salary) > 1_000_000);
 }
 
 function isValidDob(birthDate) {
