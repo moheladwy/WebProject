@@ -141,12 +141,7 @@ def vacation_list(request):
             "status": request.POST.get("status"),
         }
         
-        employeeSerializer = EmployeeSerializer(
-            instance=Employee.objects.get(id=(requestData['employee']['id'])),
-            data=requestData['employee'])
-        
-        if (employeeSerializer.is_valid()):
-            employee = employeeSerializer.save()
+        employee = Employee.objects.get(id=(requestData['employee']['id']))
         
         vacation = Vacation.objects.create(
             employee=employee,
