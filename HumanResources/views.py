@@ -129,24 +129,41 @@ def vacations(request: HttpRequest):
 
 
 # done.
-def vacation_list(request: HttpRequest):
+def vacation_list(request):
     if (request.method == 'GET'):
         # apply the new serialization here instead
         vacations = Vacation.objects.all()
         serializer = VacationSerializer(vacations, many=True)
         return JsonResponse(serializer.data, safe=False)
     
-    elif (request.method == 'POST'):
-        data = VacationSerializer(JSONParser().parse(request))
-        serializer = VacationSerializer(data=data)
-        if (serializer.is_valid()):
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
+    elif (request.method == 'POST'):        
+        requestData = {
+            "employee": json.loads(request.POST.get('employee')),
+            "startDate": request.POST.get('start-date'),
+            "endDate": request.POST.get('end-date'),
+            "vacationReason": request.POST.get('reason'),
+            "status": request.POST.get("status"),
+        }
         
-        return JsonResponse(serializer.errors, status=400)
-
-
-vacation_list = csrf_exempt(vacation_list)
+        employeeSerializer = EmployeeSerializer(
+            instance=Employee.objects.get(id=(requestData['employee']['id'])),
+            data=requestData['employee'])
+        
+        if (employeeSerializer.is_valid()):
+            employee = employeeSerializer.save()
+        
+        vacation = Vacation.objects.create(
+            employee=employee,
+            startDate=requestData['startDate'],
+            endDate=requestData['endDate'],
+            vacationReason=requestData['vacationReason'],
+            status=requestData['status'],
+        )
+        vacation.save()
+        
+        serializer = VacationSerializer(data=requestData.pop('employee'))
+        serializer.is_valid()
+        return JsonResponse(serializer.data, status=201)
 
 
 # TODO: to be tested.
