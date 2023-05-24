@@ -1,12 +1,15 @@
+import { isValidAddress, isValidDob, isValidEgyptPhone, isValidId, isValidMail, isValidName, isValidSalary, markField } from "./helper-validations.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const formBtn = document.getElementById('submit-btn');
 
     formBtn.addEventListener('click', (e) => {
-
         if (!isValidAddEmployeeForm()) 
             e.preventDefault();
     })
 });
+
+
 
 function isValidAddEmployeeForm()
 {
@@ -34,77 +37,4 @@ function isValidAddEmployeeForm()
     isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birth-day-error'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo") && isValidForm;
 
     return isValidForm;
-}
-
-
-function markField(isValid, inputField, errorLabel, message)
-{
-    if (!isValid())
-    {
-        displayError(inputField, errorLabel, message);
-        return false;
-    }
-
-    displaySuccess(inputField, errorLabel);
-    return true;
-}
-
-function isValidName(name) {
-    return !(name.length < 3 || name.length > 60);
-}
-
-function isValidAddress(address)
-{
-    return !(address.length < 15 || address.length > 60);
-}
-
-function isValidSalary(salary)
-{
-    if (!salary)
-        return false;
-        
-    return !(isNaN(salary) || Number(salary) > 1_000_000);
-}
-
-function isValidDob(birthDate) {
-    const ageInMilliseconds = new Date(Date.now() - birthDate);
-    const ageInYears = ageInMilliseconds.getFullYear() - 1970;
-    return ageInYears >= 18;
-}
-
-function isValidId(id) {
-    const regex = /^(2023)(\d){4}$/;
-    return regex.test(id);
-}
-
-function isValidEgyptPhone(phoneNumber) {
-    const regex = /^(\+20)(1)[0125](\d){8}$/;
-    return regex.test(phoneNumber);
-}
-
-function isValidMail(mail) {
-    const regex = new RegExp("^[\\w!#$%&'*+/=?^`{|}~-]+(\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,63}$");
-    return regex.test(mail);
-}
-
-function getDateInYear(dateStr)
-{
-    const year = new Date(Date.parse(dateStr)).getFullYear();
-
-    return year;
-}
-
-
-function displayError(inputField, errorLabel, message)
-{
-    inputField.className = 'input-field error';
-    errorLabel.style.visibility = 'visible';
-    errorLabel.textContent = message;
-    errorLabel.style.color = 'red';
-}
-
-function displaySuccess(inputField, errorLabel)
-{
-    inputField.className = 'input-field success';
-    errorLabel.style.visibility = 'hidden';
 }

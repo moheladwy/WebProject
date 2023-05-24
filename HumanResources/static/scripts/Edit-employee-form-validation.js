@@ -1,3 +1,5 @@
+import { isValidAddress, isValidEgyptPhone, isValidId, isValidMail, isValidName, isValidSalary, markField } from "./helper-validations.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     const saveBtn = document.getElementById('save-btn');
 
@@ -6,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
     })
 });
+
 
 function isValidEditEmployeeForm()
 {
@@ -30,70 +33,4 @@ function isValidEditEmployeeForm()
     isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salary-error'), "Salary Cannot be > 1,000,000") && isValidForm;
 
     return isValidForm;
-}
-
-
-function markField(isValid, inputField, errorLabel, message)
-{
-    if (!isValid())
-    {
-        displayError(inputField, errorLabel, message);
-        return false;
-    }
-
-    displaySuccess(inputField, errorLabel);
-    return true;
-}
-
-function isValidName(name) {
-    return !(name.length < 3 || name.length > 60);
-}
-
-function isValidAddress(address)
-{
-    return !(address.length < 15 || address.length > 60);
-}
-
-function isValidSalary(salary)
-{
-    if (!salary)
-        return false;
-        
-    return !(isNaN(salary) || Number(salary) > 1_000_000);
-}
-
-function isValidDob(birthDate) {
-    const ageInMilliseconds = new Date(Date.now() - birthDate);
-    const ageInYears = ageInMilliseconds.getFullYear() - 1970;
-    return ageInYears >= 18;
-}
-
-function isValidId(id) {
-    const regex = /^(2023)(\d){4}$/;
-    return regex.test(id);
-}
-
-function isValidEgyptPhone(phoneNumber) {
-    const regex = /^(\+20)(1)[0125](\d){8}$/;
-    return regex.test(phoneNumber);
-}
-
-function isValidMail(mail) {
-    const regex = new RegExp("^[\\w!#$%&'*+/=?^`{|}~-]+(\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,63}$");
-    return regex.test(mail);
-}
-
-
-function displayError(inputField, errorLabel, message)
-{
-    inputField.className = 'input-field error';
-    errorLabel.style.visibility = 'visible';
-    errorLabel.textContent = message;
-    errorLabel.style.color = 'red';
-}
-
-function displaySuccess(inputField, errorLabel)
-{
-    inputField.className = 'input-field success';
-    errorLabel.style.visibility = 'hidden';
 }

@@ -6,6 +6,30 @@
 {% block styleSheets %}
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
 <link rel="stylesheet" href="{% static 'styles/form-style.css' %}">
+<style>
+
+    .success {
+        border-color: green;
+    }
+
+    .error {
+        border-color: red;
+    }
+
+    .form-container input {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .form-container small {
+        display: block;
+        visibility: hidden;
+    }
+
+    textarea {
+        padding: 10px;
+    }
+</style>
 {% endblock styleSheets %}
 
 {% block scripts %}
@@ -14,6 +38,7 @@
 
 <div id="csrf-token">{% csrf_token %}</div>
 
+<script type="module" src="{% static 'scripts/vacation-form-validation.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}
@@ -23,21 +48,22 @@
         {% csrf_token %}
         <div class="form-element">
             <label for="id">Employee ID<span aria-label="required">*</span></label>
-            <input id="id" type="text" value="" size="5px" readonly>
+            <input id="id" type="text" value="" size="5px">
         </div>
         <div class="form-element">
             <label for="start-date">Starting Day<span aria-label="required">*</span></label>
-            <input id="start-date" type="date" name="start-date" min="" required>
-            <span id="start-date-error" style="display: none">start date cannot be before today.</span>
+            <input id="start-date" type="date" name="start-date" min="">
+            <small id="start-date-error"> error message </small>
         </div>
         <div class="form-element">
             <label for="end-date">Ending Day<span aria-label="required">*</span></label>
-            <input id="end-date" type="date" name="end-date" min="" required>
-            <span id="end-date-error" style="display: none"></span>
+            <input id="end-date" type="date" name="end-date" min="">
+            <small id="end-date-error"> error message </small>
         </div>
         <div class="form-element">
             <label for="reason">Vacation Reason<span aria-label="required">*</span></label>
-            <textarea id="reason" name="reason" placeholder="Type Your Reason Here!" minlength="100" maxlength="1000" required></textarea>
+            <textarea id="reason" name="reason" placeholder="Type Your Reason Here!"></textarea>
+            <small id="reason-error"> error message </small>
         </div>
         <br>
         <div class="form-element">
