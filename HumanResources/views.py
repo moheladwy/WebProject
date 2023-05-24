@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 from .models import Employee, Vacation
 from .form import EmployeeForm
@@ -161,9 +161,25 @@ def vacation_list(request):
         return JsonResponse(serializer.data, status=201)
 
 
+@csrf_exempt
+def update_vacation(request, vacationId):
+    if (request.method == 'POST'):
+        vacation = Vacation.objects.get(pk=vacationId)
+        if not vacation:
+            return HttpResponse(status=404)
+        
+        vacation.status = request.POST.get('status')
+        vacation.save()
+        return HttpResponse(status=302) # found
+    
+    else:
+        render(request, 'search-employee.html')
+
+
 # TODO: to be tested.
 def getEmployees(request: HttpRequest):
     return JsonResponse({'employees': list(Employee.objects.all().values())})
+
 
 # done.
 def employee_deatil(request: HttpRequest, employeeId: int):
