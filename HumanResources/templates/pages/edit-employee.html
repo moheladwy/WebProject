@@ -6,10 +6,31 @@
 {% block styleSheets %}
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
 <link rel="stylesheet" href="{% static 'styles/form-style.css' %}">
+<style>
+
+    .success {
+        border-color: green;
+    }
+
+    .error {
+        border-color: red;
+    }
+
+    .form-container input {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .form-container small {
+        display: block;
+        visibility: hidden;
+    }
+</style>
 {% endblock styleSheets %}
 
 {% block scripts %}
 {% comment %} <script src="{% static 'scripts/edit-employee-onload.js' %}" defer="defer"></script> {% endcomment %}
+<script src="{% static 'scripts/edit-employee-form-validation.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}
@@ -22,6 +43,7 @@
         <div class="form-element">
             <label for="{{ field.id_for_label }}">{{ field.label }}<span aria-label="required">*</span></label>
             {{ field }}
+            <small id="{{ field.id_for_label }}-error">error message </small>
         </div>
         {% endfor %}
         <div class="form-element">
