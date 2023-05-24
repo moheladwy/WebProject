@@ -12,7 +12,8 @@ class EmployeeForm(forms.Form):
             'maxlength': 8,
             'required': True,
             'placeholder': '20230000',
-        })
+        }),
+        disabled=True
     )
     name = forms.CharField(
         label='Name',
