@@ -60,7 +60,7 @@ document.getElementById('submit-btn').onclick = () => {
         postReq.open(
             'POST',
             '/vacations/vacation-list'
-        )
+        );
 
         postReq.onreadystatechange = () => {
             if (postReq.readyState === XMLHttpRequest.DONE) {
@@ -69,7 +69,7 @@ document.getElementById('submit-btn').onclick = () => {
                 else
                     prompt('BAD REQUEST.');
             }
-        }
+        };
 
         postReq.send(data);
     }
