@@ -103,3 +103,119 @@ class EmployeeForm(forms.Form):
             'required': True
         })
     )
+
+
+# class addEmployeeForm(forms.Form):
+#     id = forms.CharField(
+#         label='ID',
+#         widget=forms.TextInput(attrs={
+#             'id': 'id',
+#             'name': 'id',
+#             'class': 'input-field',
+#             'minlength': 8,
+#             'maxlength': 8,
+#             'required': True,
+#             'placeholder': '20230000',
+#             'pattern': "2023\d{4}"
+#         })
+#     )
+#     name = forms.CharField(
+#         label='Name',
+#         widget=forms.TextInput(attrs={
+#             'id': 'name',
+#             'name': 'name',
+#             'class': 'input-field',
+#             'maxlength': 50,
+#             'pattern': '[a-zA-Z\s]{3,50}',
+#             'placeholder': 'Monte Carlo',
+#             'required': True
+#         })
+#     )
+#     email = forms.EmailField(
+#         label='Email',
+#         widget=forms.EmailInput(attrs={
+#             'id': 'email',
+#             'name': 'email',
+#             'class': 'input-field',
+#             'maxlength': 50,
+#             'placeholder': 'email@gmail.com',
+#             'required': True
+#         })
+#     )
+#     address = forms.CharField(
+#         label='Address',
+#         widget=forms.TextInput(attrs={
+#             'id': 'address',
+#             'name': 'address',
+#             'class': 'input-field',
+#             'maxlength': 100,
+#             'placeholder': '30 Ahmed Zewail - Dokki',
+#             'required': True
+#         })
+#     )
+#     phoneNumber = forms.CharField(
+#         label='Phone Number',
+#         widget=forms.TextInput(attrs={
+#             'id': 'phoneNumber',
+#             'name': 'phoneNumber',
+#             'class': 'input-field',
+#             'pattern': '[0-9]{11,20}',
+#             'placeholder': '01120554765',
+#             'required': True
+#         })
+#     )
+#     gender = forms.ChoiceField(
+#         label='Gender',
+#         choices=[('M', 'Male'), ('F', 'Female')],
+#         widget=forms.RadioSelect(attrs={
+#             'id': 'gender',
+#             'name': 'gender',
+#             'class': 'input-field',
+#             'required': True
+#         })
+#     )
+#     maritalStatus = forms.ChoiceField(
+#         label='Marital Status',
+#         choices=[('M', 'Married'), ('S', 'Single')],
+#         widget=forms.RadioSelect(attrs={
+#             'id': 'maritalStatus',
+#             'name': 'maritalStatus',
+#             'class': 'input-field',
+#             'required': True
+#         })
+#     )
+#     availableVacationDays = forms.IntegerField(
+#         label='Available vacation days',
+#         min_value=0,
+#         max_value=120,
+#         widget=forms.NumberInput(attrs={
+#             'id': 'availableVacationDays',
+#             'name': 'availableVacationDays',
+#             'class': 'input-field',
+#             'required': True
+#         })
+#     )
+#     approvedVacationDays = forms.IntegerField(
+#         label='Approved vacation days',
+#         min_value=0,
+#         max_value=120,
+#         initial=0,
+#         disabled=True,
+#         widget=forms.NumberInput(attrs={
+#             'id': 'approvedVacationDays',
+#             'name': 'approvedVacationDays',
+#             'class': 'input-field',
+#             'required': True
+#         })
+#     )
+#     salary = forms.DecimalField(
+#         label='Salary',
+#         min_value=0,
+#         max_value=1000000,
+#         widget=forms.NumberInput(attrs={
+#             'id': 'salary',
+#             'name': 'salary',
+#             'class': 'input-field',
+#             'required': True
+#         })
+#     )

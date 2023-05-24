@@ -33,7 +33,7 @@ form {
     width: 600px;
     padding: 2em;
     border: 1px solid #ccc;
-    border-radius: 1em;
+    border-radius: 2em;
 }
 
 .form-element+.form-element {
