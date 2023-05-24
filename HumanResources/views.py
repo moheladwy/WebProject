@@ -156,7 +156,6 @@ def vacation_list(request):
         return JsonResponse(serializer.data, status=201)
 
 
-@csrf_exempt
 def update_vacation(request, vacationId):
     if (request.method == 'POST'):
         vacation = Vacation.objects.get(pk=vacationId)
