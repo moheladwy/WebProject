@@ -25,6 +25,10 @@
         display: block;
         visibility: hidden;
     }
+
+    textarea {
+        padding: 10px;
+    }
 </style>
 {% endblock styleSheets %}
 
@@ -54,7 +58,8 @@
         </div>
         <div class="form-element">
             <label for="reason">Vacation Reason<span aria-label="required">*</span></label>
-            <textarea id="reason" name="reason" placeholder="Type Your Reason Here!" minlength="100" maxlength="1000" required></textarea>
+            <textarea id="reason" name="reason" placeholder="Type Your Reason Here!"></textarea>
+            <small id="reason-error"> error message </small>
         </div>
         <br>
         <div class="form-element">
