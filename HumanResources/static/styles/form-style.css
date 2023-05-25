@@ -138,3 +138,22 @@ button:hover span:after {
     opacity: 1;
     right: 0;
 }
+
+
+.success {
+    border-color: green;
+}
+
+.error {
+    border-color: red;
+}
+
+.form-container input {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.form-container small {
+    display: block;
+    visibility: hidden;
+}
