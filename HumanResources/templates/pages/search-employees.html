@@ -5,6 +5,27 @@
 
 {% block styleSheets %}
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
+<style>
+#kilany {
+    color: white;
+    transition: 3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+#kilany:hover {
+    transform:scale(100);
+}
+
+/* table styling  */
+.full-table {
+    background-color: white;
+    padding: 25px;
+}
+</style>
 <link rel="stylesheet" href="{% static 'styles/search-table-styling.css' %}">
 {% endblock styleSheets %}
 
@@ -14,12 +35,19 @@
 {% endblock scripts %}
 
 {% block body %}
-<div class="topnav">
-    <a href="{% url 'index' %}">HOME</a> 
-    <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
-    <a href="{% url 'vacations' %}">VACATIONS</a>
-</div>
+<header>
+    <div id="company-header"><a href="{% url 'home' %}">Human Resources</a></div>
+    <nav>
+        <ul>
+            <li id="left"><a href="{% url 'index' %}">HOME</a></li>
+            <li><a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a></li>
+            <li><a href="{% url 'vacations' %}">VACATIONS</a></li>
+        </ul>
+    </nav>
+</header> 
+
 <h2>Search for an Employee</h2>
+
 <div class="full-table">
     <div class="above-table">
         <div class="search-box">
