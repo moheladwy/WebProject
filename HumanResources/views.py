@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from HumanResources.serializers import EmployeeSerializer, VacationSerializer
 from .models import Employee, Vacation
@@ -125,6 +126,7 @@ def vacations(request: HttpRequest):
 
 
 # done.
+@api_view(['GET', 'POST'])
 def vacation_list(request):
     if (request.method == 'GET'):
         # apply the new serialization here instead
@@ -132,29 +134,21 @@ def vacation_list(request):
         serializer = VacationSerializer(vacations, many=True)
         return JsonResponse(serializer.data, safe=False)
     
-    elif (request.method == 'POST'):        
-        requestData = {
-            "employee": json.loads(request.POST.get('employee')),
-            "startDate": request.POST.get('start-date'),
-            "endDate": request.POST.get('end-date'),
-            "vacationReason": request.POST.get('reason'),
-            "status": request.POST.get("status"),
-        }
+    elif (request.method == 'POST'):
         
-        employee = Employee.objects.get(id=(requestData['employee']['id']))
+        employee = Employee.objects.get(id=(request.data['employee-id']))
+        vacation_data = json.loads(request.data['vacation'])
         
         vacation = Vacation.objects.create(
             employee=employee,
-            startDate=requestData['startDate'],
-            endDate=requestData['endDate'],
-            vacationReason=requestData['vacationReason'],
-            status=requestData['status'],
+            startDate=vacation_data['startDate'],
+            endDate=vacation_data['endDate'],
+            vacationReason=vacation_data['vacationReason'],
+            status=vacation_data['status'],
         )
         vacation.save()
         
-        serializer = VacationSerializer(data=requestData.pop('employee'))
-        serializer.is_valid()
-        return JsonResponse(serializer.data, status=201)
+        return JsonResponse('', status=201, safe=False)
 
 
 def update_vacation(request, vacationId):
