@@ -5,13 +5,12 @@ const form = document.getElementById('vacation-form');
 var currentEmployee;
 
 document.body.onload = () => {
-
     const employeeId = window.location.href.split('/').pop();
 
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         'GET',
-        '/get-employee/' + employeeId,
+        '/employee-detail/' + employeeId,
         false
     );
 

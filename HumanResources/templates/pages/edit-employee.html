@@ -64,11 +64,11 @@
             <div class="form-element">
                 <label>Gender<span aria-label="required">*</span></label>
                 <label for="gender-m">
-                    <input class="input-field" type="radio" id="gender-m" name="gender" value="" required>
+                    <input class="input-field" type="radio" id="gender-m" name="gender" value="M" required>
                     Male
                 </label>
                 <label for="gender-f">
-                    <input class="input-field" type="radio" id="gender-f" name="gender" value="" required>
+                    <input class="input-field" type="radio" id="gender-f" name="gender" value="F" required>
                     Female
                 </label>
             </div>
@@ -76,13 +76,13 @@
                 <label>Marital Status<span aria-label="required">*</span></label>
 
                 <label for="marital-status-m">
-                    <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value=""
+                    <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="M"
                            required>
                     Married
                 </label>
 
                 <label for="marital-status-s">
-                    <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value=""
+                    <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="S"
                            required>
                     Single
                 </label>
@@ -95,7 +95,7 @@
             <div class="form-element">
                 <label for="approvedVacationDays">Approved vacation days<span aria-label="required">*</span></label>
                 <input class="input-field" type="number" id="approvedVacationDays" name="approvedVacationDays" min="0"
-                       max="90" value="" required>
+                       max="90" value="0" required>
             </div>
             <div class="form-element">
                 <label for="salary">Salary<span aria-label="required">*</span></label>
@@ -107,7 +107,7 @@
             </div>
             <div class="form-element">
                 <button id="save-btn" type="button">Save</button>
-                <button id="cancel-btn" type="button">Cancel</button>
+                <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Cancel</button></a>
                 <button id="delete-btn" type="button">Delete Employee</button>
             </div>
         </form>

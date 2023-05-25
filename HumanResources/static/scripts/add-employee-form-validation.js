@@ -1,17 +1,17 @@
 import { isValidAddress, isValidDob, isValidEgyptPhone, isValidId, isValidMail, isValidName, isValidSalary, markField } from "./helper-validations.js";
 
-document.addEventListener('DOMContentLoaded', () => {
-    const formBtn = document.getElementById('submit-btn');
+// document.addEventListener('DOMContentLoaded', () => {
+//     const formBtn = document.getElementById('submit-btn');
 
-    formBtn.addEventListener('click', (e) => {
-        if (!isValidAddEmployeeForm()) 
-            e.preventDefault();
-    })
-});
+//     formBtn.addEventListener('click', (e) => {
+//         if (!isValidAddEmployeeForm()) 
+//             e.preventDefault();
+//     })
+// });
 
 
 
-function isValidAddEmployeeForm()
+export function isValidAddEmployeeForm()
 {
     const id = document.getElementById('id');
     const name = document.getElementById('name');

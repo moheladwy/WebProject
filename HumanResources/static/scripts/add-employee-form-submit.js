@@ -1,50 +1,35 @@
-function addEmployeeActions() {
-    const inputs = document.getElementsByClassName("input-field");
-    const submit = document.getElementById("submit-btn");
+import { isValidEmployeeForm } from "./helper-validations.js";
 
-    submit.addEventListener('click', (e) => {
-        // e.preventDefault();
+const form = document.querySelector('#add-employee-form');
+const submitButton = document.getElementById("submit-btn");
 
-        // if not valid input yet => do nothing
-        // .....
+submitButton.addEventListener('click', (e) => {
+    if (isValidEmployeeForm) {
 
         // get data from form
-        const data = new FormData(document.getElementById('add-employee-form'));
+        const data = new FormData(form);
+        
+        const postReq = new XMLHttpRequest();
 
-        // populate employee object with data entries(name: value)
-        const employee = {};
-        for (const [key, value] of data.entries()) {
-            employee[key] = value;
+        postReq.open(
+            'PUT',
+            '/employee-list'
+        );
+
+        postReq.onreadystatechange = () => {
+            if (postReq.readyState === XMLHttpRequest.DONE) {
+                if (postReq.status == 200) {
+                    window.location.replace('/search-employee');
+                }
+                else {
+                    alert('BAD REQUEST.\n' + postReq.responseText);
+                }
+            }
         }
 
-        // get stored employees map
-        let employees = loadFromStorage();
-        if (employees === null)
-            employees = {};
+        postReq.send(data);
+    }
+});
 
-        employees[employee.id] = employee;
+form.querySelector('#approvedVacationDays').disabled = true;
 
-        console.log(employees);
-
-        // save modified map
-        saveToStorage(employees);
-
-        for (const [name, value] of data.entries()) {
-            console.log(`${name}: ${value},`);
-        }
-    });
-
-    submit.addEventListener('click', (e) => {
-        document.getElementById('add-employee-form').className = 'submitted';
-    });
-}
-
-const saveToStorage = (employees) => {
-    localStorage.setItem('employees', JSON.stringify(employees));
-}
-
-const loadFromStorage = () => {
-    if (!localStorage.getItem('employees'))
-        return null;
-    return JSON.parse(localStorage.getItem('employees'));
-}
