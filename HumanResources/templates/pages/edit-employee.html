@@ -30,29 +30,88 @@
 
 {% block scripts %}
 {% comment %} <script src="{% static 'scripts/edit-employee-onload.js' %}" defer="defer"></script> {% endcomment %}
-<script type="module" src="{% static 'scripts/edit-employee-form-validation.js' %}" defer="defer"></script>
+<script type="module" src="{% static 'scripts/edit-employee-form-onload.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}
 <div class="form-container">
     <h2>Edit your employee</h2>
     {% if id %}
-    <form id="edit-employee-form" action="{% url 'editEmployeeForm' id %}" method='post'>
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-element">
-            <label for="{{ field.id_for_label }}">{{ field.label }}<span aria-label="required">*</span></label>
-            {{ field }}
-            <small id="{{ field.id_for_label }}-error">error message </small>
-        </div>
-        {% endfor %}
-        <div class="form-element">
-            <button id="save-btn" type="submit">Save</button>
-            <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Cancel</button></a>
-            <a href="{% url 'deleteEmployee' id %}"><button id="delete-btn" type="button">Delete Employee</button></a>
-        </div>
-        <p class="errorMessage">{{ errorMessage }}</p>
-    </form>
+    <div class="form-container">
+        <form id="edit-employee-form" action="search-employees.html">
+            {% csrf_token %}
+            <div class="form-element">
+                <label for="id">Employee ID<span aria-label="required">*</span></label>
+                <input class="input-field" type="text" id="id" name="id" placeholder="HR0031" value =""  minlength="8" maxlength="8" required>
+            </div>
+            <div class="form-element">
+                <label for="name">Name<span aria-label="required">*</span></label>
+                <input class="input-field" type="text" id="name" name="name" placeholder="Monte Carlo" value ="" required>
+            </div>
+            <div class="form-element">
+                <label for="email">Email<span aria-label="required">*</span></label>
+                <input class="input-field" type="email" id="email" name="email" placeholder="email@host.com" required>
+            </div>
+            <div class="form-element">
+                <label for="address">Address<span aria-label="required">*</span></label>
+                <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki" value=""
+                       required>
+            </div>
+            <div class="form-element">
+                <label for="phoneNumber">Phone Number<span aria-label="required">*</span></label>
+                <input class="input-field" type="text" id="phoneNumber" name="phoneNumber" placeholder="01003657364" pattern="[0-9]{11,11}" required>
+            </div>
+            <div class="form-element">
+                <label>Gender<span aria-label="required">*</span></label>
+                <label for="gender-m">
+                    <input class="input-field" type="radio" id="gender-m" name="gender" value="" required>
+                    Male
+                </label>
+                <label for="gender-f">
+                    <input class="input-field" type="radio" id="gender-f" name="gender" value="" required>
+                    Female
+                </label>
+            </div>
+            <div class="form-element">
+                <label>Marital Status<span aria-label="required">*</span></label>
+
+                <label for="marital-status-m">
+                    <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value=""
+                           required>
+                    Married
+                </label>
+
+                <label for="marital-status-s">
+                    <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value=""
+                           required>
+                    Single
+                </label>
+            </div>
+            <div class="form-element">
+                <label for="availableVacationDays">Available vacation days<span aria-label="required">*</span></label>
+                <input class="input-field" type="number" id="availableVacationDays" name="availableVacationDays" min="0" max="120"
+                       value="" required>
+            </div>
+            <div class="form-element">
+                <label for="approvedVacationDays">Approved vacation days<span aria-label="required">*</span></label>
+                <input class="input-field" type="number" id="approvedVacationDays" name="approvedVacationDays" min="0"
+                       max="90" value="" required>
+            </div>
+            <div class="form-element">
+                <label for="salary">Salary<span aria-label="required">*</span></label>
+                <input class="input-field" type="number" id="salary" name="salary"  min="0" required>
+            </div>
+            <div class="form-element">
+                <label for="birthDay">Date of birth<span aria-label="required">*</span></label>
+                <input class="input-field" type="date" id="birthDay" name="birthDay" value="" required>
+            </div>
+            <div class="form-element">
+                <button id="save-btn" type="button">Save</button>
+                <button id="cancel-btn" type="button">Cancel</button>
+                <button id="delete-btn" type="button">Delete Employee</button>
+            </div>
+        </form>
+    </div>
     {% else %}
         <p class="errorMessage">{{ errorMessage }}</p>
         <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Back to Search</button></a>
