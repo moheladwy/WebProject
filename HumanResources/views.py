@@ -131,10 +131,9 @@ def vacations(request: HttpRequest):
 @api_view(['GET', 'POST'])
 def vacation_list(request):
     if (request.method == 'GET'):
-        # apply the new serialization here instead
         vacations = Vacation.objects.all()
         serializer = VacationSerializer(vacations, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
     
     elif (request.method == 'POST'):
         employee = Employee.objects.get(id=(request.data['employee-id']))
