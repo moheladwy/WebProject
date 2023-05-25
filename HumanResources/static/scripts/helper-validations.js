@@ -13,15 +13,15 @@ export function isValidEmployeeForm()
     
     let isValidForm = true;
 
-    isValidForm = markField(() => isValidId(id.value), id, document.getElementById('idError'), "Please Enter a valid id") && isValidForm;
-    isValidForm = markField(() => isValidMail(mail.value), mail, document.getElementById('emailError'), "Please Enter a valid mail") && isValidForm;
-    isValidForm = markField(() => isValidName(name.value), name, document.getElementById('nameError'), "Please Enter a valid name") && isValidForm;
-    isValidForm = markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phoneNumberError'), "Please Enter a valid Phone Number") && isValidForm;
-    isValidForm = markField(() => isValidAddress(address.value), address, document.getElementById('addressError'), "Please Enter a valid Address") && isValidForm;
-    isValidForm = markField(() => isValidVacationDays(availableVacationDays.value), availableVacationDays, document.getElementById('availableVacationDaysError'), "days cannot be > 120") && isValidForm;
-    isValidForm = markField(() => isValidVacationDays(approvedVacationDays.value), approvedVacationDays, document.getElementById('approvedVacationDaysError'), "days cannot be > 120") && isValidForm;
-    isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salaryError'), "Salary Cannot be > 1,000,000") && isValidForm;
-    isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birthDayError'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo") && isValidForm;
+    isValidForm = markField(() => isValidId(id.value), id, document.getElementById('idError'), "Invalid ID! ex:20230000") && isValidForm;
+    isValidForm = markField(() => isValidMail(mail.value), mail, document.getElementById('emailError'), "Invalid Email!") && isValidForm;
+    isValidForm = markField(() => isValidName(name.value), name, document.getElementById('nameError'), "Name has Atleast 3 Chars, Atmost 60!") && isValidForm;
+    isValidForm = markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phoneNumberError'), "Invalid Phone! ex: +201100120456") && isValidForm;
+    isValidForm = markField(() => isValidAddress(address.value), address, document.getElementById('addressError'), "Address has Atleast 15 Chars, Atmost 120!") && isValidForm;
+    isValidForm = markField(() => isValidVacationDays(availableVacationDays.value), availableVacationDays, document.getElementById('availableVacationDaysError'), "Days Cannot be > 120 Or < 0") && isValidForm;
+    isValidForm = markField(() => isValidVacationDays(approvedVacationDays.value), approvedVacationDays, document.getElementById('approvedVacationDaysError'), "Days Cannot be > 120 Or < 0") && isValidForm;
+    isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salaryError'), "Salary Cannot be > 1,000,000 Or < 0") && isValidForm;
+    isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birthDayError'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo to work here, stop wasting Our time") && isValidForm;
 
     return isValidForm;
 }
@@ -78,7 +78,7 @@ export function isValidMail(mail) {
 }
 
 export function isValidAddress(address) {
-    return !(address.length < 15 || address.length > 60);
+    return !(address.length < 15 || address.length > 120);
 }
 
 export function isValidVacationDays(days) {
