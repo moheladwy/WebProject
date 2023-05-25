@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from HumanResources.serializers import EmployeeSerializer, VacationSerializer
 from .models import Employee, Vacation
@@ -135,7 +137,6 @@ def vacation_list(request):
         return JsonResponse(serializer.data, safe=False)
     
     elif (request.method == 'POST'):
-        
         employee = Employee.objects.get(id=(request.data['employee-id']))
         vacation_data = json.loads(request.data['vacation'])
         
@@ -148,21 +149,23 @@ def vacation_list(request):
         )
         vacation.save()
         
-        return JsonResponse('', status=201, safe=False)
+        serializer = VacationSerializer(instance=vacation)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['POST'])
 def update_vacation(request, vacationId):
     if (request.method == 'POST'):
         vacation = Vacation.objects.get(pk=vacationId)
         if not vacation:
-            return HttpResponse(status=404)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
-        vacation.status = request.POST.get('status')
+        vacation.status = request.data['status']
         vacation.save()
-        return HttpResponse(status=302) # found
+        return Response(status=status.HTTP_302_FOUND)
     
     else:
-        render(request, 'search-employee.html')
+        render(request, 'search-employees.html')
 
 
 # TODO: to be tested.
