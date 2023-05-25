@@ -1,12 +1,12 @@
 h2 {
     font-size: 25px;
     color: white;
-    background-color: #063970;
+    background-color: inherit;
     width: fit-content;
     padding: 10px;
     border-style: solid;
     border-radius: 0.5em;
-    margin: 0.5% auto;
+    margin: 3% auto;
     text-align: center;
 }
 
