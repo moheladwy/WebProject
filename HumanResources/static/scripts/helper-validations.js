@@ -18,8 +18,8 @@ export function isValidEmployeeForm()
     isValidForm = markField(() => isValidName(name.value), name, document.getElementById('nameError'), "Please Enter a valid name") && isValidForm;
     isValidForm = markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phoneNumberError'), "Please Enter a valid Phone Number") && isValidForm;
     isValidForm = markField(() => isValidAddress(address.value), address, document.getElementById('addressError'), "Please Enter a valid Address") && isValidForm;
-    isValidForm = markField(() => {return availableVacationDays.value < 120}, availableVacationDays, document.getElementById('availableVacationDaysError'), "days cannot be > 120") && isValidForm;
-    isValidForm = markField(() => {return approvedVacationDays.value < 120}, approvedVacationDays, document.getElementById('approvedVacationDaysError'), "days cannot be > 120") && isValidForm;
+    isValidForm = markField(() => isValidVacationDays(availableVacationDays.value), availableVacationDays, document.getElementById('availableVacationDaysError'), "days cannot be > 120") && isValidForm;
+    isValidForm = markField(() => isValidVacationDays(approvedVacationDays.value), approvedVacationDays, document.getElementById('approvedVacationDaysError'), "days cannot be > 120") && isValidForm;
     isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salaryError'), "Salary Cannot be > 1,000,000") && isValidForm;
     isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birthDayError'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo") && isValidForm;
 
@@ -81,11 +81,18 @@ export function isValidAddress(address) {
     return !(address.length < 15 || address.length > 60);
 }
 
+export function isValidVacationDays(days) {
+    if (!days)
+        return false;
+        
+    return !(!isNaN(salary) || days < 0 || days > 120);
+}
+
 export function isValidSalary(salary) {
     if (!salary)
         return false;
         
-    return !(isNaN(salary) || Number(salary) > 1_000_000);
+    return !(isNaN(salary) || Number(salary) > 1_000_000 || Number(salary) < 0);
 }
 
 export function isValidDob(birthDate) {
