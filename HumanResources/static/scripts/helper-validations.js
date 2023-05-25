@@ -1,3 +1,31 @@
+export function isValidEmployeeForm()
+{
+    const id = document.getElementById('id');
+    const name = document.getElementById('name');
+    const mail = document.getElementById('email');
+    const address = document.getElementById('address');
+    const phone = document.getElementById('phoneNumber');
+    const availableVacationDays = document.getElementById('availableVacationDays');
+    const approvedVacationDays = document.getElementById('approvedVacationDays');
+    const salary = document.getElementById('salary');
+    const dob = document.getElementById('birthDay');
+
+    
+    let isValidForm = true;
+
+    isValidForm = markField(() => isValidId(id.value), id, document.getElementById('idError'), "Please Enter a valid id") && isValidForm;
+    isValidForm = markField(() => isValidMail(mail.value), mail, document.getElementById('emailError'), "Please Enter a valid mail") && isValidForm;
+    isValidForm = markField(() => isValidName(name.value), name, document.getElementById('nameError'), "Please Enter a valid name") && isValidForm;
+    isValidForm = markField(() => isValidEgyptPhone(phone.value), phone, document.getElementById('phoneNumberError'), "Please Enter a valid Phone Number") && isValidForm;
+    isValidForm = markField(() => isValidAddress(address.value), address, document.getElementById('addressError'), "Please Enter a valid Address") && isValidForm;
+    isValidForm = markField(() => {return availableVacationDays.value < 120}, availableVacationDays, document.getElementById('availableVacationDaysError'), "days cannot be > 120") && isValidForm;
+    isValidForm = markField(() => {return approvedVacationDays.value < 120}, approvedVacationDays, document.getElementById('approvedVacationDaysError'), "days cannot be > 120") && isValidForm;
+    isValidForm = markField(() => isValidSalary(salary.value), salary, document.getElementById('salaryError'), "Salary Cannot be > 1,000,000") && isValidForm;
+    isValidForm = markField(() => isValidDob(Date.parse(dob.value)), dob, document.getElementById('birthDayError'), "listen kid, you spoiled naive brat, go drink milk and play fortnite, You must be Greater than 18 yo") && isValidForm;
+
+    return isValidForm;
+}
+
 export function markField(isValid, inputField, errorLabel, message) {
     if (!isValid())
     {
