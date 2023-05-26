@@ -57,7 +57,7 @@ function populateVacationsTable(vacations) {
                 };
 
                 data = new FormData(tempForm);
-                data.append('status', 'R');
+                data.append('status', 'A');
                 
                 putReq.send(data);
             });

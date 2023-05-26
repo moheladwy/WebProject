@@ -179,14 +179,14 @@ def vacations_page(request: HttpRequest):
 
 
 # done.
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'POST'])
 def vacation_list(request):
     if (request.method == 'GET'):
         vacations = Vacation.objects.all()
         serializer = VacationSerializer(vacations, many=True)
         return Response(serializer.data)
     
-    elif (request.method == 'PUT'):
+    elif (request.method == 'POST'):
         employee = Employee.objects.get(id=(request.data['employee-id']))
         vacation_data = json.loads(request.data['vacation'])
         
@@ -203,14 +203,14 @@ def vacation_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def update_vacation(request, vacationId):
     try:
         vacation = Vacation.objects.get(pk=vacationId)
     except Vacation.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-    if (request.method == 'POST'):        
+    if (request.method == 'PUT'):        
         try:
             vacation.status = request.data['status']
             

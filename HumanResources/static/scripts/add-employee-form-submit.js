@@ -4,15 +4,13 @@ const form = document.querySelector('#add-employee-form');
 const submitButton = document.getElementById("submit-btn");
 
 submitButton.addEventListener('click', (e) => {
-    if (isValidEmployeeForm) {
-
-        // get data from form
+    if (isValidEmployeeForm()) {
         const data = new FormData(form);
         
         const postReq = new XMLHttpRequest();
 
         postReq.open(
-            'PUT',
+            'POST',
             '/employee-list'
         );
 

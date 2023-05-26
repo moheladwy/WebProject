@@ -30,7 +30,8 @@
 
 {% block scripts %}
 {% comment %} <script src="{% static 'scripts/edit-employee-onload.js' %}" defer="defer"></script> {% endcomment %}
-<script type="module" src="{% static 'scripts/edit-employee-form-onload.js' %}" defer="defer"></script>
+<script src="{% static 'scripts/edit-employee-form-onload.js' %}" defer="defer"></script>
+<script type="module" src="{% static 'scripts/edit-employee-form-actions.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}
@@ -111,7 +112,7 @@
             </div>
             <div class="form-element">
                 <button id="save-btn" type="button">Save</button>
-                <button id="cancel-btn" type="button">Cancel</button>
+                <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Cancel</button></a>
                 <button id="delete-btn" type="button">Delete Employee</button>
             </div>
         </form>
