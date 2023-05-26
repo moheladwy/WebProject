@@ -40,24 +40,28 @@
         {% csrf_token %}
         <div class="form-element">
             <label for="id">Employee ID<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="id" name="id" placeholder="HR0031" value =""  minlength="8" maxlength="8" required>
+            <input class="input-field" type="text" id="id" name="id" placeholder="20230000" value ="">
+            <small id="idError">error message </small>
         </div>
         <div class="form-element">
             <label for="name">Name<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="name" name="name" placeholder="Monte Carlo" value ="" required>
+            <input class="input-field" type="text" id="name" name="name" placeholder="Monte Carlo" value ="">
+            <small id="nameError">error message </small>
         </div>
         <div class="form-element">
             <label for="email">Email<span aria-label="required">*</span></label>
-            <input class="input-field" type="email" id="email" name="email" placeholder="email@host.com" required>
+            <input class="input-field" type="email" id="email" name="email" placeholder="email@host.com">
+            <small id="emailError">error message </small>
         </div>
         <div class="form-element">
             <label for="address">Address<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki" value=""
-                   required>
+            <input class="input-field" type="text" id="address" name="address" placeholder="30 Ahmed Zewail - Dokki" value="">
+            <small id="addressError">error message </small>
         </div>
         <div class="form-element">
             <label for="phoneNumber">Phone Number<span aria-label="required">*</span></label>
-            <input class="input-field" type="text" id="phoneNumber" name="phoneNumber" placeholder="01003657364" pattern="[0-9]{11,11}" required>
+            <input class="input-field" type="text" id="phoneNumber" name="phoneNumber" placeholder="+201003657364">
+            <small id="phoneNumberError">error message </small>
         </div>
         <div class="form-element">
             <label>Gender<span aria-label="required">*</span></label>
@@ -74,34 +78,34 @@
             <label>Marital Status<span aria-label="required">*</span></label>
 
             <label for="marital-status-m">
-                <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="M"
-                       required>
+                <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="M" required>
                 Married
             </label>
 
             <label for="marital-status-s">
-                <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="S"
-                       required>
+                <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="S" required>
                 Single
             </label>
         </div>
         <div class="form-element">
             <label for="availableVacationDays">Available vacation days<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="availableVacationDays" name="availableVacationDays" min="0" max="120"
-                   value="" required>
+            <input class="input-field" type="number" id="availableVacationDays" name="availableVacationDays" value="0">
+            <small id="availableVacationDaysError">error message </small>
         </div>
         <div class="form-element">
             <label for="approvedVacationDays">Approved vacation days<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="approvedVacationDays" name="approvedVacationDays" min="0"
-                   max="90" value="0" required>
+            <input class="input-field" type="number" id="approvedVacationDays" name="approvedVacationDays" value="0">
+            <small id="approvedVacationDaysError">error message </small>
         </div>
         <div class="form-element">
             <label for="salary">Salary<span aria-label="required">*</span></label>
-            <input class="input-field" type="number" id="salary" name="salary"  min="0" required>
+            <input class="input-field" type="number" id="salary" name="salary" value="0">
+            <small id="salaryError">error message </small>
         </div>
         <div class="form-element">
             <label for="birthDay">Date of birth<span aria-label="required">*</span></label>
-            <input class="input-field" type="date" id="birthDay" name="birthDay" value="" required>
+            <input class="input-field" type="date" id="birthDay" name="birthDay">
+            <small id="birthDayError"> error message </small>
         </div>
         <div class="form-element">
             <button id="submit-btn" type="button">Save</button>
