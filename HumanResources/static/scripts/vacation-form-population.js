@@ -5,13 +5,12 @@ const form = document.getElementById('vacation-form');
 var currentEmployee;
 
 document.body.onload = () => {
-
     const employeeId = window.location.href.split('/').pop();
 
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         'GET',
-        '/get-employee/' + employeeId,
+        '/employee-detail/' + employeeId,
         false
     );
 
@@ -37,12 +36,11 @@ function getCSRFToken() {
 
 document.getElementById('submit-btn').onclick = () => {
     if (isValidVacationForm()) {
-        const data = new FormData(form);
-
+        
         // this does not belong to the functionality, this is a solution 
         // for a really bad problem I had some morning back in the day
-        const vacation = {
-            employee: currentEmployee,
+        const vac = {
+            employeeId: currentEmployee,
             startDate: form.querySelector('#start-date').value,
             endDate: form.querySelector('#end-date').value,
             vacationReason: form.querySelector('#reason').value,
@@ -51,11 +49,20 @@ document.getElementById('submit-btn').onclick = () => {
 
         const newData = new FormData();
         newData.append('csrfmiddlewaretoken', getCSRFToken());
-        newData.append('vacation', JSON.stringify(vacation));
+        newData.append('vac', JSON.stringify(vac));
         // ************************************************************
+        
+        const data = new FormData();
+        const vacation = {
+            startDate: form.querySelector('#start-date').value,
+            endDate: form.querySelector('#end-date').value,
+            vacationReason: form.querySelector('#reason').value,
+            status: 'P',
+        };
 
-        data.append('employee', JSON.stringify(currentEmployee));
-        data.append('status', 'P');
+        data.append('csrfmiddlewaretoken', getCSRFToken());
+        data.append('vacation', JSON.stringify(vacation));
+        data.append('employee-id', currentEmployee.id);
 
         const postReq = new XMLHttpRequest();
 

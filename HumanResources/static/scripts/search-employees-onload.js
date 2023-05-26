@@ -2,13 +2,12 @@ document.body.onload = function (event) {
     const employeesRequest = new XMLHttpRequest();
     employeesRequest.open(
         'GET',
-        window.location.href + 'get-all-employees'
+        '/employee-list'
     );
 
     employeesRequest.onreadystatechange = () => {
         if (employeesRequest.readyState == XMLHttpRequest.DONE && employeesRequest.status == 200) {
-            const response = JSON.parse(employeesRequest.responseText);
-            const employees = response['employees'];
+            const employees = JSON.parse(employeesRequest.responseText);
             populateEmployeesTable(employees);
         }
     }
@@ -33,7 +32,7 @@ function populateEmployeesTable(employees) {
     }
     else {
         const tr = "<tr>No Employees, try to add one!</tr>";
-        tbody.appendChild(tr);
+        tbody.innerHTML = tr;
     }
 }
 
