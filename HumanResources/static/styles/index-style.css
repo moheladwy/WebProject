@@ -22,6 +22,7 @@ header {
 
 header a {
     text-decoration: none;
+    padding: 10px;
 }
 
 #company-header {
