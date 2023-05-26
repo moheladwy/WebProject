@@ -5,12 +5,36 @@
 
 {% block styleSheets %}    
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
+<style>
+
+#kilany {
+    color: white;
+    transition: 5s ease-in; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+#kilany:hover {
+    transform:scale(100);
+}
+</style>
 {% endblock styleSheets %}
 
 {% block body %}
-<div class="topnav">
-    <a href="{% url 'index' %}">HOME</a> 
-    <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
-    <a href="{% url 'vacations' %}">VACATIONS</a>
-</div>
+<header>
+    <div id="company-header"><a href="{% url 'home' %}">Human Resources</a></div>
+    <nav>
+        <ul>
+            <li id="left"><a href="{% url 'index' %}">HOME</a></li>
+            <li><a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a></li>
+            <li><a href="{% url 'vacations' %}">VACATIONS</a></li>
+        </ul>
+    </nav>
+</header>
+    <div id="kilany">
+        Kilany
+    </div>
 {% endblock body %}

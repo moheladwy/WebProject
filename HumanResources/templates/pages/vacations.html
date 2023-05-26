@@ -5,7 +5,7 @@
 
 {% block styleSheets %}
 <link rel="stylesheet" href="{% static 'styles/index-style.css' %}" />
-<link rel="stylesheet" href="{% static 'styles/vacations-table-styling.css' %}">
+<link rel="stylesheet" href="{% static 'styles/search-table-styling.css' %}">
 {% endblock styleSheets %}
 
 {% block scripts %}
@@ -14,11 +14,16 @@
     
 
 {% block body %}
-<div class="topnav">
-    <a href="{% url 'index' %}">HOME</a> 
-    <a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a>
-    <a href="{% url 'vacations' %}">VACATIONS</a>
-</div>
+<header>
+    <div id="company-header"><a href="{% url 'home' %}">Human Resources</a></div>
+    <nav>
+        <ul>
+            <li id="left"><a href="{% url 'index' %}">HOME</a></li>
+            <li><a href="{% url 'searchEmployee' %}">SEARCH EMPLOYEES</a></li>
+            <li><a href="{% url 'vacations' %}">VACATIONS</a></li>
+        </ul>
+    </nav>
+</header>
 <h2>Submitted Vacations List</h2>
 <form id="temp-form" action="" method="PUT">
     {% csrf_token %}
@@ -26,7 +31,6 @@
 <div class="full-table">
     <div class="above-table"></div>
     <div class="table-wrapper">
-        
         <table>
             <thead>
                 <tr>
@@ -40,7 +44,7 @@
                     <th class="action">Actions</th>
                 </tr>
             </thead>
-            <tbody> 
+            <tbody>
             </tbody>
         </table>
     </div>

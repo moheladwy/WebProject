@@ -1,18 +1,99 @@
+form {
+    color: black;
+    background-color: white;
+    margin: 0 auto;
+    width: 600px;
+    padding: 2em;
+    border: 1px solid #ccc;
+    border-radius: 2em;
+    box-shadow: 0 10px 25px rgb(0, 0, 0, 0.3);
+}
+
+form button {
+    margin-top: 10px;
+    margin-left: 15px;
+    width: 200px;
+    background-color: white;
+    color: #0080ff;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: solid #0080ff;
+    transition: 0.3s ease;
+}
+
+form button:hover {
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgb(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
 .form-container {
     text-align: center;
+}
+
+.success {
+    border: 2px solid #09c372 !important;
+}
+
+.error {
+    border: 2px solid #ff3860 !important;
+}
+
+.form-element label {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 5px;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+form .form-element .input-field,
+#id, #start-date, #end-date, #reason {
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    display: block;
+    font-size: 20px;
+    padding: 10px;
+    height: 30px;
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+
+
+.form-container small {
+    display: block;
+    visibility: hidden;
 }
 
 .form-container h2 {
     font-size: 25px;
     color: white;
-    background-color: #063970;
+    background-color: inherit;
     width: fit-content;
     padding: 10px;
     border-style: solid;
     border-radius: 0.5em;
-    margin: 0.5% auto;
+    margin: 2% auto;
     text-align: center;
 }
+
+input[type="radio"] {
+    display: inline-block;
+    width: 5px
+}
+  
+label[for="gender-m"], label[for="gender-f"], label[for="marital-status-m"], label[for="marital-status-s"] {
+    margin-right: 20px;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
 
 .errorMessage {
     color: red;
@@ -26,17 +107,20 @@
     border-radius: 1em;
 }
 
-form {
-    color: black;
-    background-color: white;
-    margin: 0 auto;
-    width: 600px;
-    padding: 2em;
-    border: 1px solid #ccc;
-    border-radius: 2em;
-}
+/* form label {
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+} */
 
-.form-element+.form-element {
+
+
+/* form .form-element input:focus {
+    outline: 0;
+} */
+
+/* .form-element+.form-element {
     margin-top: 1.5em;
 }
 
@@ -138,3 +222,22 @@ button:hover span:after {
     opacity: 1;
     right: 0;
 }
+
+
+.success {
+    border-color: green;
+}
+
+.error {
+    border-color: red;
+}
+
+.form-container input {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.form-container small {
+    display: block;
+    visibility: hidden;
+} */
