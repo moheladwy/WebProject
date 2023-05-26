@@ -38,20 +38,24 @@ h2 {
     padding-left: 85px;
 } */
 
-button[name="add-employee"] {
-    background-color: #0080ff;
-    color: #DFF6FF;
+ button[name="add-employee"] {
+    background-color: white;
+    color: #0080ff;
     position: absolute;
     right: 1.5%;
     top: 16%;
-    border: none;
     border-radius: 5px;
+    border: solid #0080ff;
     height: 60%;
     padding: 10px;
-}
+    transition: 0.3s ease;
+} 
 
-.above-table a :hover {
-    background-color: #0244f8;
+button[name="add-employee"]:hover {
+    cursor: pointer;
+    background-color: #cfe6ff;
+    box-shadow: 0 10px 25px rgb(0, 0, 0, 0.3);
+    transform: scale(1.1);
 }
 
 .search-box {
