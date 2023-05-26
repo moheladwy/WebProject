@@ -46,7 +46,7 @@ function populateVacationsTable(vacations) {
             tr.querySelector('.approve-button').addEventListener('click', () => {
                 const putReq = new XMLHttpRequest();
                 putReq.open(
-                    'POST',
+                    'PUT',
                     '/vacations/update-vacation/' + v.id
                 );
 
@@ -57,7 +57,7 @@ function populateVacationsTable(vacations) {
                 };
 
                 data = new FormData(tempForm);
-                data.append('status', 'R');
+                data.append('status', 'A');
                 
                 putReq.send(data);
             });
@@ -65,7 +65,7 @@ function populateVacationsTable(vacations) {
             tr.querySelector('.reject-button').addEventListener('click', () => {
                 const putReq = new XMLHttpRequest();
                 putReq.open(
-                    'POST',
+                    'PUT',
                     '/vacations/update-vacation/' + v.id
                 );
 

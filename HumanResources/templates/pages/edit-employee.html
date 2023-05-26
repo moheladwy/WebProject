@@ -30,7 +30,8 @@
 
 {% block scripts %}
 {% comment %} <script src="{% static 'scripts/edit-employee-onload.js' %}" defer="defer"></script> {% endcomment %}
-<script type="module" src="{% static 'scripts/edit-employee-form-validation.js' %}" defer="defer"></script>
+<script src="{% static 'scripts/edit-employee-form-onload.js' %}" defer="defer"></script>
+<script type="module" src="{% static 'scripts/edit-employee-form-actions.js' %}" defer="defer"></script>
 {% endblock scripts %}
 
 {% block body %}
@@ -68,11 +69,11 @@
             <div class="form-element">
                 <label>Gender<span aria-label="required">*</span></label>
                 <label for="gender-m">
-                    <input class="input-field" type="radio" id="gender-m" name="gender" value="" required>
+                    <input class="input-field" type="radio" id="gender-m" name="gender" value="M" required>
                     Male
                 </label>
                 <label for="gender-f">
-                    <input class="input-field" type="radio" id="gender-f" name="gender" value="" required>
+                    <input class="input-field" type="radio" id="gender-f" name="gender" value="F" required>
                     Female
                 </label>
             </div>
@@ -80,12 +81,12 @@
                 <label>Marital Status<span aria-label="required">*</span></label>
 
                 <label for="marital-status-m">
-                    <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="" required>
+                    <input class="input-field" type="radio" id="marital-status-m" name="maritalStatus" value="M" required>
                     Married
                 </label>
 
                 <label for="marital-status-s">
-                    <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="" required>
+                    <input class="input-field" type="radio" id="marital-status-s" name="maritalStatus" value="S" required>
                     Single
                 </label>
             </div>
@@ -111,7 +112,7 @@
             </div>
             <div class="form-element">
                 <button id="save-btn" type="button">Save</button>
-                <button id="cancel-btn" type="button">Cancel</button>
+                <a href="{% url 'searchEmployee' %}"><button id="cancel-btn" type="button">Cancel</button></a>
                 <button id="delete-btn" type="button">Delete Employee</button>
             </div>
         </form>

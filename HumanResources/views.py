@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from HumanResources.serializers import EmployeeSerializer, VacationSerializer
 from .models import Employee, Vacation
@@ -100,6 +103,57 @@ def editEmployeeForm(request: HttpRequest, employeeId: int):
     })
 
 
+def edit_employee_page(request, employeeId):
+    try:
+        employee = Employee.objects.get(id=employeeId)
+    except Employee.DoesNotExist:
+        return render(request, 'pages/edit-employee.html', status=404)
+    
+    return render(request, 'pages/edit-employee.html', {
+        'id': employeeId
+    })
+
+
+@api_view(['GET', 'POST'])
+def employee_list(request):
+    if request.method == 'GET':
+        employees = Employee.objects.all()
+        serializer = EmployeeSerializer(employees, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = EmployeeSerializer(data=request.data)
+        if (serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def employee_detail(request, employeeId):
+    try:
+        employee = Employee.objects.get(id=employeeId)
+    except Employee.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET':
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        serializer = EmployeeSerializer(instance=employee, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == "DELETE":
+        employee.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 # done.
 def deleteEmployee(request: HttpRequest, employeeId: int):
     try:
@@ -115,60 +169,65 @@ def deleteEmployee(request: HttpRequest, employeeId: int):
 
 
 # done.
-def vacationForm(request: HttpRequest, employeeId):
+def vacation_form(request: HttpRequest, employeeId):
     return render(request, 'pages/vacation-form.html')
 
 
 # done.
-def vacations(request: HttpRequest):
+def vacations_page(request: HttpRequest):
     return render(request, 'pages/vacations.html')
 
 
 # done.
+@api_view(['GET', 'POST'])
 def vacation_list(request):
     if (request.method == 'GET'):
-        # apply the new serialization here instead
         vacations = Vacation.objects.all()
         serializer = VacationSerializer(vacations, many=True)
-        return JsonResponse(serializer.data, safe=False)
+        return Response(serializer.data)
     
-    elif (request.method == 'POST'):        
-        requestData = {
-            "employee": json.loads(request.POST.get('employee')),
-            "startDate": request.POST.get('start-date'),
-            "endDate": request.POST.get('end-date'),
-            "vacationReason": request.POST.get('reason'),
-            "status": request.POST.get("status"),
-        }
-        
-        employee = Employee.objects.get(id=(requestData['employee']['id']))
+    elif (request.method == 'POST'):
+        employee = Employee.objects.get(id=(request.data['employee-id']))
+        vacation_data = json.loads(request.data['vacation'])
         
         vacation = Vacation.objects.create(
             employee=employee,
-            startDate=requestData['startDate'],
-            endDate=requestData['endDate'],
-            vacationReason=requestData['vacationReason'],
-            status=requestData['status'],
+            startDate=vacation_data['startDate'],
+            endDate=vacation_data['endDate'],
+            vacationReason=vacation_data['vacationReason'],
+            status=vacation_data['status'],
         )
         vacation.save()
         
-        serializer = VacationSerializer(data=requestData.pop('employee'))
-        serializer.is_valid()
-        return JsonResponse(serializer.data, status=201)
+        serializer = VacationSerializer(instance=vacation)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['PUT'])
 def update_vacation(request, vacationId):
-    if (request.method == 'POST'):
+    try:
         vacation = Vacation.objects.get(pk=vacationId)
-        if not vacation:
-            return HttpResponse(status=404)
+    except Vacation.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if (request.method == 'PUT'):        
+        try:
+            vacation.status = request.data['status']
+            
+            if vacation.status == 'A': # approved
+                vacation_days = (vacation.endDate - vacation.startDate).days
+                vacation.employee.availableVacationDays -= vacation_days
+                vacation.employee.approvedVacationDays += vacation_days
+                vacation.employee.save()
+            
+            vacation.save()
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
         
-        vacation.status = request.POST.get('status')
-        vacation.save()
-        return HttpResponse(status=302) # found
+        return Response(status=status.HTTP_302_FOUND)
     
     else:
-        render(request, 'search-employee.html')
+        render(request, 'search-employees.html')
 
 
 # TODO: to be tested.
@@ -176,8 +235,3 @@ def getEmployees(request: HttpRequest):
     return JsonResponse({'employees': list(Employee.objects.all().values())})
 
 
-# done.
-def employee_deatil(request: HttpRequest, employeeId: int):
-    employee = Employee.objects.get(id=employeeId)
-    serializer = EmployeeSerializer(employee)
-    return JsonResponse(serializer.data)
