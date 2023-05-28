@@ -187,8 +187,16 @@ def vacation_list(request):
         return Response(serializer.data)
     
     elif (request.method == 'POST'):
-        employee = Employee.objects.get(id=(request.data['employee-id']))
-        vacation_data = json.loads(request.data['vacation'])
+        employee_id = request.data.get('employee-id')
+        vacation_data = json.loads(request.data.get('vacation'))
+        
+        if not employee_id or not vacation_data:
+            return Response({'error': 'Invalid request data'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            employee = Employee.objects.get(id=employee_id)
+        except Employee.DoesNotExist:
+            return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
         
         vacation = Vacation.objects.create(
             employee=employee,
@@ -208,26 +216,26 @@ def update_vacation(request, vacationId):
     try:
         vacation = Vacation.objects.get(pk=vacationId)
     except Vacation.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    if (request.method == 'PUT'):        
-        try:
-            vacation.status = request.data['status']
-            
-            if vacation.status == 'A': # approved
-                vacation_days = (vacation.endDate - vacation.startDate).days
-                vacation.employee.availableVacationDays -= vacation_days
-                vacation.employee.approvedVacationDays += vacation_days
-                vacation.employee.save()
-            
-            vacation.save()
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response(status=status.HTTP_302_FOUND)
-    
-    else:
-        render(request, 'search-employees.html')
+        return Response({'error': 'Vacation not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        status_value = request.data.get('status')
+
+        if status_value not in ['A', 'R', 'P']:  # Approved, Rejected, Pending
+            return Response({'error': 'Invalid status value'}, status=status.HTTP_400_BAD_REQUEST)
+
+        vacation.status = status_value
+        vacation.save()
+
+        if vacation.status == 'A':  # Approved
+            vacation_days = (vacation.endDate - vacation.startDate).days
+            vacation.employee.availableVacationDays -= vacation_days
+            vacation.employee.approvedVacationDays += vacation_days
+            vacation.employee.save()
+
+        return Response({'message': 'Vacation updated'}, status=status.HTTP_200_OK)
+
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
 # TODO: to be tested.
