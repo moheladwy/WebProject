@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from HumanResources.serializers import EmployeeSerializer, VacationSerializer
+from HumanResources.serializers import *
 from .models import Employee, Vacation
 from .form import EmployeeForm
 import json
@@ -122,7 +122,7 @@ def employee_list(request):
         return Response(serializer.data)
     
     elif request.method == 'POST':
-        serializer = EmployeeSerializer(data=request.data)
+        serializer = EmployeeDetailSerializer(data=request.data)
         if (serializer.is_valid()):
             serializer.save()
             return Response(serializer.data)
@@ -138,11 +138,11 @@ def employee_detail(request, employeeId):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer = EmployeeSerializer(employee)
+        serializer = EmployeeDetailSerializer(employee)
         return Response(serializer.data)
     
     elif request.method == 'PUT':
-        serializer = EmployeeSerializer(instance=employee, data=request.data)
+        serializer = EmployeeDetailSerializer(instance=employee, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -183,7 +183,7 @@ def vacations_page(request: HttpRequest):
 def vacation_list(request):
     if (request.method == 'GET'):
         vacations = Vacation.objects.all()
-        serializer = VacationSerializer(vacations, many=True)
+        serializer = VacationDetailSerializer(vacations, many=True)
         return Response(serializer.data)
     
     elif (request.method == 'POST'):
@@ -198,17 +198,13 @@ def vacation_list(request):
         except Employee.DoesNotExist:
             return Response({'error': 'Employee not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        vacation = Vacation.objects.create(
-            employee=employee,
-            startDate=vacation_data['startDate'],
-            endDate=vacation_data['endDate'],
-            vacationReason=vacation_data['vacationReason'],
-            status=vacation_data['status'],
-        )
-        vacation.save()
-        
-        serializer = VacationSerializer(instance=vacation)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer = VacationSerializer(data=vacation_data)
+        if serializer.is_valid():
+            vacation = serializer.save(employee=employee)
+            return Response(VacationDetailSerializer(vacation).data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
 
 
 @api_view(['PUT'])
