@@ -10,21 +10,20 @@ document.body.onload = () => {
     const xhttp = new XMLHttpRequest();
     xhttp.open(
         'GET',
-        '/employee-detail/' + employeeId,
-        false
+        '/employee-detail/' + employeeId
     );
 
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
             currentEmployee = JSON.parse(xhttp.responseText);
-            populateVacationForm();
+            populateVacationForm(currentEmployee);
         }
     }
 
     xhttp.send();
 };
 
-function populateVacationForm() {
+function populateVacationForm(currentEmployee) {
     const idInput = form.querySelector('#id');
     idInput.disabled = true;
     idInput.value = currentEmployee.id;
