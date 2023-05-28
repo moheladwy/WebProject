@@ -1,6 +1,4 @@
-const tempForm = document.getElementById('temp-form');
-
-document.body.onload = beginLoadVacations;
+document.addEventListener('DOMContentLoaded', beginLoadVacations);
 
 function beginLoadVacations(event) {
     const vacationsReq = new XMLHttpRequest();
@@ -10,10 +8,14 @@ function beginLoadVacations(event) {
     );
 
     vacationsReq.onreadystatechange = () => {
-        if (vacationsReq.readyState === XMLHttpRequest.DONE && vacationsReq.status === 200) {
-            const vacations = JSON.parse(vacationsReq.responseText);
-
-            populateVacationsTable(vacations);
+        if (vacationsReq.readyState === XMLHttpRequest.DONE) {
+            if (vacationsReq.status === 200) {
+                const vacations = JSON.parse(vacationsReq.responseText);
+                populateVacationsTable(vacations);
+            }
+            else {
+                console.error('Error loading vacations', vacationsReq.responseText);
+            }
         }
     };
 
@@ -25,68 +27,22 @@ function getCSRFToken() {
 }
 
 function populateVacationsTable(vacations) {
-    const tbody = document.querySelector('.full-table').querySelector('tbody');
+    const tbody = document.querySelector('.full-table tbody');
     tbody.innerHTML = '';
 
     for (const v of vacations) {
         // if the vacation is pending, show it
         if (v.status == 'P') {
-            const tr = templateTableRow();
-
-            tr.querySelector('.employee-id').innerHTML = v.employee.id;
-            tr.querySelector('.employee-name').innerHTML = v.employee.name;
-            tr.querySelector('.employee-email').innerHTML = v.employee.email;
-            tr.querySelector('.employee-phone-number').innerHTML = v.employee.phoneNumber;
-            tr.querySelector('.vacation-start-date').innerHTML = v.startDate;
-            tr.querySelector('.vacation-end-date').innerHTML = v.endDate;
-            tr.querySelector('.vacation-reason').innerHTML = v.vacationReason;
+            const tr = createTableRow(v);
 
             tbody.appendChild(tr);
-
-            tr.querySelector('.approve-button').addEventListener('click', () => {
-                const putReq = new XMLHttpRequest();
-                putReq.open(
-                    'PUT',
-                    '/vacations/update-vacation/' + v.id
-                );
-
-                putReq.onreadystatechange = () => {
-                    if (putReq.readyState === XMLHttpRequest.DONE) {
-                        beginLoadVacations();
-                    }
-                };
-
-                data = new FormData(tempForm);
-                data.append('status', 'A');
-                
-                putReq.send(data);
-            });
-
-            tr.querySelector('.reject-button').addEventListener('click', () => {
-                const putReq = new XMLHttpRequest();
-                putReq.open(
-                    'PUT',
-                    '/vacations/update-vacation/' + v.id
-                );
-
-                putReq.onreadystatechange = () => {
-                    if (putReq.readyState === XMLHttpRequest.DONE) {
-                        beginLoadVacations();
-                    }
-                };
-
-                data = new FormData(tempForm);
-                data.append('status', 'R');
-
-                putReq.send(data);
-            });
         }
     }
 }
 
-function templateTableRow() {
-    const templateRow = document.createElement('tr');
-    templateRow.innerHTML = `
+function createTableRow(vacation) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
     <td class="employee-id"></td>
     <td class="employee-name"></td>
     <td class="employee-email"></td>
@@ -99,7 +55,36 @@ function templateTableRow() {
         <button class="reject-button" type="button"><i class="fa-regular fa-circle-xmark"></i></button>
     </td>
 `;
-    return templateRow;
+    
+    const approveButton = tr.querySelector('.approve-button');
+    approveButton.addEventListener('click', () => handleVacationStatusChange(vacation.id, 'A'));
+
+    const rejectButton = tr.querySelector('.reject-button');
+    rejectButton.addEventListener('click', () => handleVacationStatusChange(vacation.id, 'R'));
+
+    return tr;
 }
+
+function handleVacationStatusChange(vacationId, status) {
+    const putReq = new XMLHttpRequest();
+
+    putReq.open(
+        'PUT',
+        '/vacations/update-vacation/' + vacationId
+    );
+
+    putReq.onreadystatechange = () => {
+        if (putReq.readyState === XMLHttpRequest.DONE) {
+            beginLoadVacations();
+        }
+    };
+
+    const tempForm = document.getElementById('temp-form');
+    data = new FormData(tempForm);
+    data.append('status', status);
+    
+    putReq.send(data);
+}
+
 
 
