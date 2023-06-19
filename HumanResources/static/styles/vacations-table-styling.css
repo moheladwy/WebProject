@@ -81,7 +81,7 @@ table {
 }
 
 .table-wrapper td button:hover {
-    color: turquoise;
+    color: red;
 }
 
 .table-wrapper tr:nth-child(even) {
